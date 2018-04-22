@@ -113,6 +113,25 @@ class Game extends Component {
                   <p className="title is-size-1">
                     {player.score}
                   </p>
+
+                  {!player.bet && (
+                    <div className="columns is-mobile is-centered">
+                      <span className="column">
+                        <input
+                          className="input"
+                          type="number"
+                          placeholder="Bet value"
+                        />
+                      </span>
+                      <span className="column">
+                        <button
+                          className="button is-info"
+                        >
+                          Place bet
+                        </button>
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
