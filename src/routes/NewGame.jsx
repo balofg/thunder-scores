@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { startGame } from '../store/actions';
@@ -93,6 +94,7 @@ class NewGameRoute extends Component {
               <button
                 className="button is-primary"
                 disabled={fields.some(field => !field)}
+                onClick={() => this.props.startGame(this.state.fields)}
               >
                 <span className="icon is-small">
                   <i className="fas fa-bolt" />
@@ -108,5 +110,9 @@ class NewGameRoute extends Component {
     );
   }
 }
+
+NewGameRoute.propTypes = {
+  startGame: PropTypes.func.isRequired,
+};
 
 export default connect(null, { startGame })(NewGameRoute);
