@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { history as historyPropTypes } from 'history-prop-types';
 import { connect } from 'react-redux';
 
 import { startGame } from '../store/actions';
 
-class NewGameRoute extends Component {
+class PlayersRoute extends Component {
   constructor(props) {
     super(props);
 
@@ -15,6 +16,7 @@ class NewGameRoute extends Component {
     this.addField = this.addField.bind(this);
     this.removeField = this.removeField.bind(this);
     this.onFieldChange = this.onFieldChange.bind(this);
+    this.submit = this.submit.bind(this);
   }
 
   addField() {
@@ -40,6 +42,11 @@ class NewGameRoute extends Component {
         ...this.state.fields.slice(index + 1),
       ],
     });
+  }
+
+  submit() {
+    this.props.startGame(this.state.fields);
+    this.props.history.push('game');
   }
 
   render() {
@@ -94,7 +101,7 @@ class NewGameRoute extends Component {
               <button
                 className="button is-primary"
                 disabled={fields.some(field => !field)}
-                onClick={() => this.props.startGame(this.state.fields)}
+                onClick={this.submit}
               >
                 <span className="icon is-small">
                   <i className="fas fa-bolt" />
@@ -111,8 +118,9 @@ class NewGameRoute extends Component {
   }
 }
 
-NewGameRoute.propTypes = {
+PlayersRoute.propTypes = {
   startGame: PropTypes.func.isRequired,
+  history: PropTypes.shape(historyPropTypes),
 };
 
-export default connect(null, { startGame })(NewGameRoute);
+export default connect(null, { startGame })(PlayersRoute);

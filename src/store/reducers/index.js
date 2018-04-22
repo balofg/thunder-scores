@@ -39,10 +39,7 @@ const reducer = (state = initialState, action) => {
         };
 
         const player = state.players[playerIndex];
-
-        const currentScore = player.scores.length > 0
-          ? player.scores[player.scores.length - 1].value
-          : 0;
+        const currentScore = player.scores[player.scores.length - 1].score;
 
         return {
           ...state,

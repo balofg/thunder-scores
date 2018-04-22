@@ -10,7 +10,8 @@ import '@fortawesome/fontawesome-free-solid';
 import 'bulma/css/bulma.min.css';
 
 import HomeRoute from './routes/Home.jsx';
-import NewGameRoute from './routes/NewGame.jsx';
+import PlayersRoute from './routes/Players.jsx';
+import GameRoute from './routes/Game';
 
 import reducers from './store/reducers';
 import registerServiceWorker from './registerServiceWorker';
@@ -28,8 +29,8 @@ const App = () => (
     <Router history={history}>
       <Switch>
         <Route path="/" component={HomeRoute} exact />
-        <Route path="/players" component={NewGameRoute} />
-        <Route path="/game" />
+        <Route path="/players" component={PlayersRoute} />
+        <Route path="/game" component={GameRoute} />
       </Switch>
     </Router>
   </Provider>

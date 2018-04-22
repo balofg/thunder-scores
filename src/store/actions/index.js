@@ -6,6 +6,7 @@ export const startGame = playerNames => ({
   players: playerNames.map(name => ({
     name,
     id: v4(),
+    scores: [{ score: 0 }],
   })),
 });
 
