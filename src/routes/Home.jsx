@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const HomeRoute = () => (
   <div className="hero is-large">
@@ -11,12 +12,12 @@ const HomeRoute = () => (
           Automatic score keeper for the &quot;Thunder&quot; card game
         </div>
         <div className="body">
-          <button className="button is-primary">
+          <Link to="/players" className="button is-primary">
             <span className="icon is-small">
               <i className="fas fa-bolt" />
             </span>
             <span>New Game</span>
-          </button>
+          </Link>
         </div>
       </div>
     </div>

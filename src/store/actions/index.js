@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { v4 } from 'uuid';
 
-export const createNewGame = playerNames => ({
+export const startGame = playerNames => ({
   type: 'START_GAME',
   players: playerNames.map(name => ({
     name,
