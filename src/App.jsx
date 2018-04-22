@@ -10,7 +10,7 @@ class App extends Component {
               Thunder Score Keeper
             </div>
             <div className="subtitle">
-              Automatic score keeper for the "Thunder" card game
+              Automatic score keeper for the &quot;Thunder&quot; card game
             </div>
             <div className="body">
               <button className="button is-primary">
