@@ -8,7 +8,7 @@ class Game extends Component {
     this.state = {
       hand: {
         cardsCount: 1,
-        dealerId: undefined,
+        dealerId: '',
       },
     };
 
@@ -25,14 +25,26 @@ class Game extends Component {
   }
 
   render() {
-    const { players, hand } = this.props;
+    const {
+      players, hand, bets,
+      dealHand, closeHand,
+    } = this.props;
+
     return (
       <div className="section">
         <div className="container">
           <div className="content">
             {hand && hand.status === 'OPEN' ? (
               <h1 className="is-size-3">
-                {hand.cardsCount} card{hand.cardsCount > 1 ? 's' : ''}
+                {hand.cardsCount} card{hand.cardsCount > 1 ? 's' : ''} hand
+
+                <button
+                  className="button is-primary is-pulled-right"
+                  disabled={!bets.length || bets.some(bet => bet.status === 'OPEN')}
+                  onClick={closeHand}
+                >
+                  Close hand
+                </button>
               </h1>
             ) : (
               <div className="columns">
@@ -58,9 +70,11 @@ class Game extends Component {
                       <div className="select" style={{ width: '100%' }}>
                         <select
                           value={this.state.hand.dealerId}
+                          defaultValue=""
                           style={{ width: '100%' }}
                           onChange={this.onDealerChange}
                         >
+                          <option disabled value="">Choose...</option>
                           {players.map(player => (
                             <option
                               value={player.id}
@@ -75,17 +89,14 @@ class Game extends Component {
                   </div>
                 </div>
 
-                <div className="column" style={{ display: 'flex' }}>
+                <div className="column" style={{ display: 'flex', justifyContent: 'flex-end' }}>
                   <button
-                    className="button is-primary"
+                    className="button is-primary is-pulled-right"
                     style={{ alignSelf: 'flex-end' }}
                     disabled={!this.state.hand.dealerId || !this.state.hand.cardsCount}
-                    onClick={() => console.log(this.state)}
+                    onClick={() => dealHand(this.state.hand.dealerId, this.state.hand.cardsCount)}
                   >
-                    <span className="icon is-small">
-                      <i className="fas fa-hand-paper" />
-                    </span>
-                    <span>Deal hand</span>
+                    Deal hand
                   </button>
                 </div>
               </div>
@@ -132,6 +143,8 @@ Game.propTypes = {
     status: PropTypes.string.isRequired,
   }),
   bets: PropTypes.arrayOf(betShape).isRequired,
+  dealHand: PropTypes.func.isRequired,
+  closeHand: PropTypes.func.isRequired,
 };
 
 Game.defaultProps = {
