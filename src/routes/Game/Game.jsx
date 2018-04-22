@@ -1,21 +1,37 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-const Game = props => (
-  <div className="section">
-    <div className="container">
-      <h1 className="title is-size-1">Players</h1>
+class Game extends Component {
+  render() {
+    const { players } = this.props;
+    return (
+      <div className="section">
+        <div className="container">
+          <div className="content">
+            <div className="field is-grouped">
 
-      <div className="content">
-        <ul>
-          {props.players.map(player => (
-            <li key={player.id}>{player.name} ({player.score})</li>
-          ))}
-        </ul>
+            </div>
+          </div>
+
+          <div className="content">
+            {players.map(player => (
+              <div className="card" key={player.id}>
+                <div className="card-content">
+                  <p className="subtitle">
+                    {player.name}
+                  </p>
+                  <p className="title is-size-1">
+                    {player.score}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-);
+    );
+  }
+}
 
 Game.propTypes = {
   players: PropTypes.arrayOf(PropTypes.shape({

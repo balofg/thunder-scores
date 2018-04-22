@@ -20,6 +20,11 @@ export const dealHand = (dealerId, cardsCount) => ({
   },
 });
 
+export const closeHand = hand => ({
+  type: 'CLOSE_HAND',
+  hand,
+});
+
 export const placeBet = (playerId, handId, value) => ({
   type: 'PLACE_BET',
   bet: {

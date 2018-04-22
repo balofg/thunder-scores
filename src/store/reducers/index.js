@@ -16,15 +16,36 @@ const reducer = (state = initialState, action) => {
         ...state,
         hands: [
           ...state.hands,
-          action.hand,
+          {
+            ...action.hand,
+            status: 'OPEN',
+          },
         ],
       };
+    case 'CLOSE_HAND': {
+      const handIndex = this.state.hands.findIndex(({ id }) => id === action.hand.id);
+      if (handIndex > -1) {
+        return {
+          ...state,
+          hands: [
+            ...state.hands.slice(0, handIndex),
+            { ...action.hand, status: 'CLOSED' },
+            ...state.hands.slice(handIndex + 1),
+          ],
+        };
+      }
+
+      return state;
+    }
     case 'PLACE_BET':
       return {
         ...state,
         bets: [
           ...state.bets,
-          action.bet,
+          {
+            ...action.bet,
+            status: 'OPEN',
+          },
         ],
       };
     case 'WIN_BET':
