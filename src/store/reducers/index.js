@@ -59,6 +59,7 @@ const reducer = (state = initialState, action) => {
                 ...player.scores,
                 {
                   betId: bet.id,
+                  timestamp: bet.timestamp,
                   score: action.type === 'WIN_BET'
                     ? currentScore + 10 + bet.value
                     : currentScore - bet.value,
