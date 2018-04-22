@@ -2,19 +2,39 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class Game extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      hand: {
+        cardsCount: 1,
+        dealerId: undefined,
+      },
+    };
+
+    this.onCardsCountChange = this.onCardsCountChange.bind(this);
+    this.onDealerChange = this.onDealerChange.bind(this);
+  }
+
+  onCardsCountChange({ target: { value } }) {
+    this.setState({ hand: { ...this.state.hand, cardsCount: value } });
+  }
+
+  onDealerChange({ target: { value } }) {
+    this.setState({ hand: { ...this.state.hand, dealerId: value } });
+  }
+
   render() {
     const { players, hand } = this.props;
     return (
       <div className="section">
         <div className="container">
-          {hand && hand.status === 'OPEN' ? (
-            <div className="content">
+          <div className="content">
+            {hand && hand.status === 'OPEN' ? (
               <h1 className="is-size-3">
                 {hand.cardsCount} card{hand.cardsCount > 1 ? 's' : ''}
               </h1>
-            </div>
-          ) : (
-            <div className="content">
+            ) : (
               <div className="columns">
                 <div className="column">
                   <div className="field">
@@ -22,7 +42,10 @@ class Game extends Component {
                       <label className="label">Number of cards</label>
                       <input
                         className="input"
-                        type="tel"
+                        type="number"
+                        min="1"
+                        max={Math.floor(52 / players.length)}
+                        onChange={this.onCardsCountChange}
                       />
                     </div>
                   </div>
@@ -33,9 +56,18 @@ class Game extends Component {
                     <div className="control">
                       <label className="label">Dealer</label>
                       <div className="select" style={{ width: '100%' }}>
-                        <select style={{ width: '100%' }}>
+                        <select
+                          value={this.state.hand.dealerId}
+                          style={{ width: '100%' }}
+                          onChange={this.onDealerChange}
+                        >
                           {players.map(player => (
-                            <option value={player.id} key={player.id}>{player.name}</option>
+                            <option
+                              value={player.id}
+                              key={player.id}
+                            >
+                              {player.name}
+                            </option>
                           ))}
                         </select>
                       </div>
@@ -47,6 +79,8 @@ class Game extends Component {
                   <button
                     className="button is-primary"
                     style={{ alignSelf: 'flex-end' }}
+                    disabled={!this.state.hand.dealerId || !this.state.hand.cardsCount}
+                    onClick={() => console.log(this.state)}
                   >
                     <span className="icon is-small">
                       <i className="fas fa-hand-paper" />
@@ -55,8 +89,8 @@ class Game extends Component {
                   </button>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
           <div className="content has-text-centered">
             {players.map(player => (
