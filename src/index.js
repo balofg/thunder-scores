@@ -15,7 +15,12 @@ import NewGameRoute from './routes/NewGame.jsx';
 import reducers from './store/reducers';
 import registerServiceWorker from './registerServiceWorker';
 
-const store = createStore(reducers);
+const store = createStore(
+  reducers,
+  // eslint-disable-next-line no-underscore-dangle
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+);
+
 const history = createBrowserHistory();
 
 const App = () => (
