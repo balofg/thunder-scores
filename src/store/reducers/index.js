@@ -35,7 +35,7 @@ const reducer = (state = initialState, action) => {
       if (betIndex > -1 && playerIndex > -1) {
         const bet = {
           ...action.bet,
-          status: 'WON',
+          status: action.type === 'WIN_BET' ? 'WON' : 'LOST',
         };
 
         const player = state.players[playerIndex];
