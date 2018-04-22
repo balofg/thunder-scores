@@ -84,7 +84,7 @@ class NewGameRoute extends Component {
                   <i className="fas fa-plus" />
                 </span>
                 <span>
-                  Add player
+                  Add
                 </span>
               </button>
             </div>
