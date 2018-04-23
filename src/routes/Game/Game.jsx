@@ -15,6 +15,7 @@ class Game extends Component {
     this.onBetChange = this.onBetChange.bind(this);
     this.onResultChange = this.onResultChange.bind(this);
     this.canBet = this.canBet.bind(this);
+    this.canClose = this.canClose.bind(this);
     this.checkData = this.checkData.bind(this);
   }
 
@@ -107,6 +108,29 @@ class Game extends Component {
       totalBetsValue === this.props.hand.cardsCount
       && this.props.players.filter(({ bet }) => !bet).length === 1
     ) {
+      return false;
+    }
+
+    return true;
+  }
+
+  canClose() {
+    const totalResultsValue = this.props.players.reduce(
+      (value, { id, bet }) => {
+        if (bet && bet.result !== undefined) {
+          return value + bet.result;
+        }
+
+        if (this.state.results[id] !== undefined) {
+          return value + this.state.results[id]
+        }
+
+        return value;
+      },
+      0,
+    );
+
+    if (totalResultsValue > this.props.hand.cardsCount) {
       return false;
     }
 
@@ -262,7 +286,7 @@ class Game extends Component {
                         <span className="control">
                           <button
                             className="button"
-                            disabled={this.state.results[player.id] === undefined}
+                            disabled={!this.canClose() || this.state.results[player.id] === undefined}
                             onClick={() => closeBet(player.bet, this.state.results[player.id])}
                           >
                             End bet
