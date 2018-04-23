@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { createBrowserHistory } from 'history';
+import { createHashHistory } from 'history';
 import { Router, Switch, Route } from 'react-router-dom';
 
 import '@fortawesome/fontawesome';
@@ -14,7 +14,6 @@ import PlayersRoute from './routes/Players';
 import GameRoute from './routes/Game';
 
 import reducers from './store/reducers';
-import registerServiceWorker from './registerServiceWorker';
 
 const store = createStore(
   reducers,
@@ -22,7 +21,7 @@ const store = createStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );
 
-const history = createBrowserHistory();
+const history = createHashHistory();
 
 const App = () => (
   <Provider store={store}>
@@ -37,4 +36,3 @@ const App = () => (
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
