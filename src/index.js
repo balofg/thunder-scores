@@ -9,8 +9,8 @@ import '@fortawesome/fontawesome';
 import '@fortawesome/fontawesome-free-solid';
 import 'bulma/css/bulma.min.css';
 
-import HomeRoute from './routes/Home.jsx';
-import PlayersRoute from './routes/Players.jsx';
+import HomeRoute from './routes/Home';
+import PlayersRoute from './routes/Players';
 import GameRoute from './routes/Game';
 
 import reducers from './store/reducers';

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { dealHand, placeBet, winBet, loseBet, closeHand } from '../../store/actions';
-import GameComponent from './Game.jsx';
+import GameComponent from './Game';
 
 const mapStateToProps = (state) => {
   const hand = state.hands.find(({ status }) => status === 'OPEN');
