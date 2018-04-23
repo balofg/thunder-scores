@@ -103,35 +103,46 @@ class Game extends Component {
             )}
           </div>
 
-          <div className="content has-text-centered">
+          <div className="columns is-multiline">
             {players.map(player => (
-              <div className="card" key={player.id}>
-                <div className="card-content">
-                  <p className="subtitle">
-                    {player.name}
-                  </p>
-                  <p className="title is-size-1">
-                    {player.score}
-                  </p>
-
-                  {!player.bet && (
-                    <div className="columns is-mobile is-centered">
-                      <span className="column">
-                        <input
-                          className="input"
-                          type="number"
-                          placeholder="Bet value"
-                        />
-                      </span>
-                      <span className="column">
-                        <button
-                          className="button is-info"
-                        >
-                          Place bet
-                        </button>
-                      </span>
+              <div className="column is-one-third" key={player.id}>
+                <div className="card">
+                  <div className="card-content">
+                    <div className="level is-mobile">
+                      <div className="level-left">
+                        <div className="level-item">
+                          <p className="is-size-3">
+                            {player.name}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="level-right">
+                        <div className="level-item">
+                          <p className="is-size-1">
+                            {player.score}
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                  )}
+                    {!player.bet && (
+                      <div className="columns is-mobile is-centered">
+                        <span className="column">
+                          <input
+                            className="input"
+                            type="number"
+                            placeholder="Bet value"
+                          />
+                        </span>
+                        <span className="column">
+                          <button
+                            className="button is-info"
+                          >
+                            Place bet
+                          </button>
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
