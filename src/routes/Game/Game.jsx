@@ -122,7 +122,7 @@ class Game extends Component {
         }
 
         if (this.state.results[id] !== undefined) {
-          return value + this.state.results[id]
+          return value + this.state.results[id];
         }
 
         return value;
@@ -147,6 +147,15 @@ class Game extends Component {
       closeBet,
     } = this.props;
 
+    const doneBetting = players.length && !players.some(({ bet }) => !bet);
+    const donePlaying =
+      players.length && !players.some(({ bet }) => !bet || bet.result === undefined);
+
+    const totalBetsValue = doneBetting ? players.reduce(
+      (value, { bet }) => value + bet.value,
+      0,
+    ) : undefined;
+
     return (
       <div className="section">
         <div className="container">
@@ -157,7 +166,7 @@ class Game extends Component {
 
                 <button
                   className="button is-primary is-pulled-right"
-                  disabled={players.some(({ bet }) => !bet || bet.status === 'OPEN')}
+                  disabled={!donePlaying}
                   onClick={() => closeHand(hand)}
                 >
                   Close hand
@@ -215,6 +224,13 @@ class Game extends Component {
               </div>
             )}
           </div>
+
+          {doneBetting && (
+            <p className="content">
+              Total bets value: {totalBetsValue}<br />
+              Delta: {totalBetsValue - hand.cardsCount > 0 ? '+' : ''}{totalBetsValue - hand.cardsCount}
+            </p>
+          )}
 
           <div className="columns is-multiline">
             {players.map(player => (
@@ -274,7 +290,7 @@ class Game extends Component {
                       </div>
                     )}
 
-                    {player.bet && player.bet.status === 'OPEN' && !players.some(({ bet }) => !bet) && (
+                    {player.bet && player.bet.status === 'OPEN' && doneBetting && (
                       <div className="field has-addons" style={{ justifyContent: 'center' }}>
                         <span className="control">
                           <NumberInput
@@ -286,7 +302,8 @@ class Game extends Component {
                         <span className="control">
                           <button
                             className="button"
-                            disabled={!this.canClose() || this.state.results[player.id] === undefined}
+                            disabled={!this.canClose()
+                              || this.state.results[player.id] === undefined}
                             onClick={() => closeBet(player.bet, this.state.results[player.id])}
                           >
                             End bet
