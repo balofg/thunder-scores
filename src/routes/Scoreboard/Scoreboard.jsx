@@ -4,7 +4,7 @@ import { history as historyPropTypes } from 'history-prop-types';
 
 class Scoreboard extends Component {
   componentWillMount() {
-    if (!this.props.players || this.props.players) {
+    if (!this.props.players || !this.props.players.length) {
       this.props.history.push('players');
     }
   }

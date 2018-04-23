@@ -359,6 +359,7 @@ class Game extends Component {
           <div className="content has-text-right">
             <button
               className="button"
+              onClick={() => this.props.history.push('scores')}
             >
               <span className="icon is-small">
                 <i className="fas fa-table" />
