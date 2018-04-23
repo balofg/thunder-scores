@@ -14,7 +14,6 @@ const mapStateToProps = (state) => {
         ? state.bets.find(bet => bet.handId === hand.id && bet.playerId === player.id)
         : undefined,
     })),
-    bets: hand ? state.bets.filter(bet => bet.handId === hand.id) : [],
   };
 };
 

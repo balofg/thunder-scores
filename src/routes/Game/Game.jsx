@@ -23,14 +23,14 @@ class Game extends Component {
       this.props.history.push('players');
     }
 
-    this.checkData(this.props);
+    this.checkData(this.props, true);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.checkData(nextProps);
+    this.checkData(nextProps, nextProps.hand !== this.props.hand);
   }
 
-  checkData({ hand, players }) {
+  checkData({ hand, players }, reset) {
     this.setState({
       hand: hand ? undefined : {
         cardsCount: 1,
@@ -41,14 +41,14 @@ class Game extends Component {
           ...bets,
           [id]: bets[id] || undefined,
         }),
-        this.state.bets || {},
+        reset ? {} : (this.state.bets || {}),
       ),
       results: players.reduce(
         (results, { id }) => ({
           ...results,
           [id]: results[id] || undefined,
         }),
-        this.state.results || {},
+        reset ? {} : (this.state.results || {}),
       ),
     });
   }
@@ -117,7 +117,6 @@ class Game extends Component {
     const {
       players,
       hand,
-      bets,
       dealHand,
       closeHand,
       placeBet,
@@ -134,7 +133,7 @@ class Game extends Component {
 
                 <button
                   className="button is-primary is-pulled-right"
-                  disabled={!bets.length || bets.some(bet => bet.status === 'OPEN')}
+                  disabled={players.some(({ bet }) => !bet || bet.status === 'OPEN')}
                   onClick={() => closeHand(hand)}
                 >
                   Close hand
@@ -321,19 +320,17 @@ class Game extends Component {
   }
 }
 
-const betShape = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  playerId: PropTypes.string.isRequired,
-  status: PropTypes.oneOf(['OPEN', 'CLOSED']).isRequired,
-  value: PropTypes.number.isRequired,
-});
-
 Game.propTypes = {
   players: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     score: PropTypes.number.isRequired,
-    bet: betShape,
+    bet: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      playerId: PropTypes.string.isRequired,
+      status: PropTypes.oneOf(['OPEN', 'CLOSED']).isRequired,
+      value: PropTypes.number.isRequired,
+    }),
   })).isRequired,
   hand: PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -341,7 +338,6 @@ Game.propTypes = {
     cardsCount: PropTypes.number.isRequired,
     status: PropTypes.oneOf(['OPEN', 'CLOSED']).isRequired,
   }),
-  bets: PropTypes.arrayOf(betShape).isRequired,
   dealHand: PropTypes.func.isRequired,
   closeHand: PropTypes.func.isRequired,
   placeBet: PropTypes.func.isRequired,
