@@ -16,7 +16,7 @@ class NumberInput extends Component {
     const { onChange } = this.props;
 
     if (/^\d*$/ig.test(value)) {
-      onChange(value);
+      onChange(value === '' ? undefined : parseFloat(value));
     }
   }
 

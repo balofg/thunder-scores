@@ -53,14 +53,14 @@ class Game extends Component {
   }
 
   onBetChanged(playerId, value) {
-    if (value !== '' && value > this.props.hand.cardsCount) {
+    if (value !== undefined && value > this.props.hand.cardsCount) {
       return;
     }
 
     this.setState({
       bets: {
         ...this.state.bets,
-        [playerId]: value !== '' ? parseFloat(value) : undefined,
+        [playerId]: value,
       },
     });
   }
@@ -95,6 +95,7 @@ class Game extends Component {
       bets,
       dealHand,
       closeHand,
+      placeBet,
     } = this.props;
 
     return (
@@ -201,6 +202,7 @@ class Game extends Component {
                           <button
                             className="button"
                             disabled={!this.canBet()}
+                            onClick={() => placeBet(player.id, hand.id, this.state.bets[player.id])}
                           >
                             Place bet
                           </button>
@@ -296,6 +298,7 @@ Game.propTypes = {
   bets: PropTypes.arrayOf(betShape).isRequired,
   dealHand: PropTypes.func.isRequired,
   closeHand: PropTypes.func.isRequired,
+  placeBet: PropTypes.func.isRequired,
   history: PropTypes.shape(historyPropTypes).isRequired,
 };
 

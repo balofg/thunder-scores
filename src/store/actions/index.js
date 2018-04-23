@@ -32,7 +32,7 @@ export const placeBet = (playerId, handId, value) => ({
     playerId,
     handId,
     value,
-    betId: v4(),
+    id: v4(),
   },
 });
 
