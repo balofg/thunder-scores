@@ -10,7 +10,7 @@ class PlayersRoute extends Component {
     super(props);
 
     this.state = {
-      fields: ['Player 1', 'Player 2', 'Player 3'],
+      fields: ['', '', ''],
     };
 
     this.addField = this.addField.bind(this);
