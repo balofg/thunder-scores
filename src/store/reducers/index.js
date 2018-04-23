@@ -45,18 +45,19 @@ const reducer = (state = initialState, action) => {
           {
             ...action.bet,
             status: 'OPEN',
+            placedTimestamp: action.timestamp,
           },
         ],
       };
-    case 'WIN_BET':
-    case 'LOSE_BET': {
+    case 'CLOSE_BET': {
       const betIndex = state.bets.findIndex(({ id }) => id === action.bet.id);
       const playerIndex = state.players.findIndex(({ id }) => id === action.bet.playerId);
 
       if (betIndex > -1 && playerIndex > -1) {
         const bet = {
           ...action.bet,
-          status: action.type === 'WIN_BET' ? 'WON' : 'LOST',
+          closedTimestamp: action.timestamp,
+          status: 'CLOSED',
         };
 
         const player = state.players[playerIndex];
@@ -78,7 +79,7 @@ const reducer = (state = initialState, action) => {
                 {
                   betId: bet.id,
                   timestamp: bet.timestamp,
-                  score: action.type === 'WIN_BET'
+                  score: action.bet.result === action.bet.value
                     ? currentScore + 10 + bet.value
                     : currentScore - bet.value,
                 },

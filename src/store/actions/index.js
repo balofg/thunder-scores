@@ -27,23 +27,17 @@ export const closeHand = hand => ({
 
 export const placeBet = (playerId, handId, value) => ({
   type: 'PLACE_BET',
+  timestamp: moment().valueOf(),
   bet: {
     playerId,
     handId,
     value,
-    timestamp: moment().valueOf(),
     betId: v4(),
   },
 });
 
-export const winBet = bet => ({
-  type: 'WIN_BET',
-  timestamp: moment().valueOf(),
-  bet,
-});
-
-export const loseBet = bet => ({
-  type: 'LOSE_BET',
+export const closeBet = bet => ({
+  type: 'CLOSE_BET',
   timestamp: moment().valueOf(),
   bet,
 });

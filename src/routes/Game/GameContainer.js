@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { dealHand, placeBet, winBet, loseBet, closeHand } from '../../store/actions';
+import { dealHand, closeHand, placeBet, closeBet } from '../../store/actions';
 import GameComponent from './Game';
 
 const mapStateToProps = (state) => {
@@ -18,10 +18,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   dealHand,
-  placeBet,
-  winBet,
-  loseBet,
   closeHand,
+  placeBet,
+  closeBet,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameComponent);
