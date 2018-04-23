@@ -8,21 +8,40 @@ class Game extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      hand: {
-        cardsCount: 1,
-        dealerId: '',
-      },
-    };
+    this.state = {};
 
     this.onCardsCountChange = this.onCardsCountChange.bind(this);
     this.onDealerChange = this.onDealerChange.bind(this);
+    this.canBet = this.canBet.bind(this);
+    this.checkData = this.checkData.bind(this);
   }
 
   componentWillMount() {
     if (this.props.players.length === 0) {
       this.props.history.push('players');
     }
+
+    this.checkData(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.checkData(nextProps);
+  }
+
+  checkData({ hand, players }) {
+    this.setState({
+      hand: hand ? undefined : {
+        cardsCount: 1,
+        dealerId: '',
+      },
+      bets: players.reduce(
+        (bets, { id }) => ({
+          ...bets,
+          [id]: bets[id] || undefined,
+        }),
+        this.state.bets || {},
+      ),
+    });
   }
 
   onCardsCountChange(value) {
@@ -33,10 +52,49 @@ class Game extends Component {
     this.setState({ hand: { ...this.state.hand, dealerId: value } });
   }
 
+  onBetChanged(playerId, value) {
+    if (value !== '' && value > this.props.hand.cardsCount) {
+      return;
+    }
+
+    this.setState({
+      bets: {
+        ...this.state.bets,
+        [playerId]: value !== '' ? parseFloat(value) : undefined,
+      },
+    });
+  }
+
+  canBet() {
+    const totalBetsValue = this.props.players.reduce(
+      (value, { id, bet }) => {
+        if (bet) {
+          return value + bet.value;
+        }
+
+        if (this.state.bets[id] !== undefined) {
+          return value + this.state.bets[id];
+        }
+
+        return value;
+      },
+      0,
+    );
+
+    if (totalBetsValue === this.props.hand.cardsCount) {
+      return false;
+    }
+
+    return true;
+  }
+
   render() {
     const {
-      players, hand, bets,
-      dealHand, closeHand,
+      players,
+      hand,
+      bets,
+      dealHand,
+      closeHand,
     } = this.props;
 
     return (
@@ -133,14 +191,17 @@ class Game extends Component {
                     {!player.bet && !!hand && (
                       <div className="field has-addons" style={{ justifyContent: 'center' }}>
                         <span className="control">
-                          <input
-                            className="input"
-                            type="text"
+                          <NumberInput
+                            value={this.state.bets[player.id]}
+                            onChange={value => this.onBetChanged(player.id, value)}
                             placeholder="Bet value"
                           />
                         </span>
                         <span className="control">
-                          <button className="button">
+                          <button
+                            className="button"
+                            disabled={!this.canBet()}
+                          >
                             Place bet
                           </button>
                         </span>
@@ -229,6 +290,7 @@ Game.propTypes = {
   hand: PropTypes.shape({
     id: PropTypes.string.isRequired,
     dealerId: PropTypes.string.isRequired,
+    cardsCount: PropTypes.number.isRequired,
     status: PropTypes.string.isRequired,
   }),
   bets: PropTypes.arrayOf(betShape).isRequired,
