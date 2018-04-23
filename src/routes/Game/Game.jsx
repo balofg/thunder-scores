@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { history as historyPropTypes } from 'history-prop-types';
 
+import NumberInput from '../../components/NumberInput';
+
 class Game extends Component {
   constructor(props) {
     super(props);
@@ -23,7 +25,7 @@ class Game extends Component {
     }
   }
 
-  onCardsCountChange({ target: { value } }) {
+  onCardsCountChange(value) {
     this.setState({ hand: { ...this.state.hand, cardsCount: value } });
   }
 
@@ -59,12 +61,9 @@ class Game extends Component {
                   <div className="field">
                     <div className="control">
                       <label className="label">Number of cards</label>
-                      <input
-                        className="input"
-                        type="number"
-                        min="1"
-                        max={Math.floor(52 / players.length)}
+                      <NumberInput
                         onChange={this.onCardsCountChange}
+                        value={this.state.hand.cardsCount}
                       />
                     </div>
                   </div>
@@ -77,7 +76,6 @@ class Game extends Component {
                       <div className="select" style={{ width: '100%' }}>
                         <select
                           value={this.state.hand.dealerId}
-                          defaultValue=""
                           style={{ width: '100%' }}
                           onChange={this.onDealerChange}
                         >
