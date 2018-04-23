@@ -12,6 +12,8 @@ class Game extends Component {
 
     this.onCardsCountChange = this.onCardsCountChange.bind(this);
     this.onDealerChange = this.onDealerChange.bind(this);
+    this.onBetChange = this.onBetChange.bind(this);
+    this.onResultChange = this.onResultChange.bind(this);
     this.canBet = this.canBet.bind(this);
     this.checkData = this.checkData.bind(this);
   }
@@ -41,6 +43,13 @@ class Game extends Component {
         }),
         this.state.bets || {},
       ),
+      results: players.reduce(
+        (results, { id }) => ({
+          ...results,
+          [id]: results[id] || undefined,
+        }),
+        this.state.results || {},
+      ),
     });
   }
 
@@ -52,7 +61,7 @@ class Game extends Component {
     this.setState({ hand: { ...this.state.hand, dealerId: value } });
   }
 
-  onBetChanged(playerId, value) {
+  onBetChange(playerId, value) {
     if (value !== undefined && value > this.props.hand.cardsCount) {
       return;
     }
@@ -60,6 +69,19 @@ class Game extends Component {
     this.setState({
       bets: {
         ...this.state.bets,
+        [playerId]: value,
+      },
+    });
+  }
+
+  onResultChange(playerId, value) {
+    if (value !== undefined && value > this.props.hand.cardsCount) {
+      return;
+    }
+
+    this.setState({
+      results: {
+        ...this.state.results,
         [playerId]: value,
       },
     });
@@ -99,6 +121,7 @@ class Game extends Component {
       dealHand,
       closeHand,
       placeBet,
+      closeBet,
     } = this.props;
 
     return (
@@ -197,14 +220,14 @@ class Game extends Component {
                         <span className="control">
                           <NumberInput
                             value={this.state.bets[player.id]}
-                            onChange={value => this.onBetChanged(player.id, value)}
+                            onChange={value => this.onBetChange(player.id, value)}
                             placeholder="Bet value"
                           />
                         </span>
                         <span className="control">
                           <button
                             className="button"
-                            disabled={!this.canBet()}
+                            disabled={!this.canBet() || this.state.bets[player.id] === undefined}
                             onClick={() => placeBet(player.id, hand.id, this.state.bets[player.id])}
                           >
                             Place bet
@@ -213,33 +236,53 @@ class Game extends Component {
                       </div>
                     )}
 
-                    {!!hand && player.bet && player.bet.status === 'OPEN' && (
-                      <div>
-                        <div className="level is-mobile">
-                          <div className="level-left">
-                            <div className="level-item">Bet value</div>
-                          </div>
-                          <div className="level-right">
-                            <div className="level-item">
-                              {player.bet.value}
-                              {' / '}
-                              {hand.cardsCount}
-                            </div>
+                    {player.bet && (
+                      <div className="level is-mobile">
+                        <div className="level-left">
+                          <div className="level-item">Bet value</div>
+                        </div>
+                        <div className="level-right">
+                          <div className="level-item">
+                            {player.bet.value}
+                            {' / '}
+                            {hand.cardsCount}
                           </div>
                         </div>
-                        <div className="field has-addons" style={{ justifyContent: 'center' }}>
-                          <span className="control">
-                            <input
-                              className="input"
-                              type="text"
-                              placeholder="Result"
-                            />
-                          </span>
-                          <span className="control">
-                            <button className="button">
-                              End bet
-                            </button>
-                          </span>
+                      </div>
+                    )}
+
+                    {player.bet && player.bet.status === 'OPEN' && !players.some(({ bet }) => !bet) && (
+                      <div className="field has-addons" style={{ justifyContent: 'center' }}>
+                        <span className="control">
+                          <NumberInput
+                            value={this.state.results[player.id]}
+                            onChange={value => this.onResultChange(player.id, value)}
+                            placeholder="Result"
+                          />
+                        </span>
+                        <span className="control">
+                          <button
+                            className="button"
+                            disabled={this.state.results[player.id] === undefined}
+                            onClick={() => closeBet(player.bet, this.state.results[player.id])}
+                          >
+                            End bet
+                          </button>
+                        </span>
+                      </div>
+                    )}
+
+                    {player.bet && player.bet.status === 'CLOSED' && (
+                      <div className="level is-mobile">
+                        <div className="level-left">
+                          <div className="level-item">Result</div>
+                        </div>
+                        <div className="level-right">
+                          <div className="level-item">
+                            {player.bet.result}
+                            {' / '}
+                            {player.bet.value}
+                          </div>
                         </div>
                       </div>
                     )}
@@ -281,7 +324,7 @@ class Game extends Component {
 const betShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   playerId: PropTypes.string.isRequired,
-  status: PropTypes.oneOf(['OPEN', 'WON', 'LOST']).isRequired,
+  status: PropTypes.oneOf(['OPEN', 'CLOSED']).isRequired,
   value: PropTypes.number.isRequired,
 });
 
@@ -296,12 +339,13 @@ Game.propTypes = {
     id: PropTypes.string.isRequired,
     dealerId: PropTypes.string.isRequired,
     cardsCount: PropTypes.number.isRequired,
-    status: PropTypes.string.isRequired,
+    status: PropTypes.oneOf(['OPEN', 'CLOSED']).isRequired,
   }),
   bets: PropTypes.arrayOf(betShape).isRequired,
   dealHand: PropTypes.func.isRequired,
   closeHand: PropTypes.func.isRequired,
   placeBet: PropTypes.func.isRequired,
+  closeBet: PropTypes.func.isRequired,
   history: PropTypes.shape(historyPropTypes).isRequired,
 };
 

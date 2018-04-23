@@ -56,6 +56,7 @@ const reducer = (state = initialState, action) => {
       if (betIndex > -1 && playerIndex > -1) {
         const bet = {
           ...action.bet,
+          result: action.result,
           closedTimestamp: action.timestamp,
           status: 'CLOSED',
         };

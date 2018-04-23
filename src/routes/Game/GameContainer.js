@@ -9,7 +9,9 @@ const mapStateToProps = (state) => {
     players: state.players.map(player => ({
       ...player,
       score: player.scores[player.scores.length - 1].score,
-      bet: state.bets.find(bet => bet.status === 'OPEN' && bet.playerId === player.id),
+      bet: hand
+        ? state.bets.find(bet => bet.handId === hand.id && bet.playerId === player.id)
+        : undefined,
     })),
     hand,
     bets: state.bets.filter(bet => bet.handId === hand.id),

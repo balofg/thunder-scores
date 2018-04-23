@@ -36,8 +36,9 @@ export const placeBet = (playerId, handId, value) => ({
   },
 });
 
-export const closeBet = bet => ({
+export const closeBet = (bet, result) => ({
   type: 'CLOSE_BET',
   timestamp: moment().valueOf(),
   bet,
+  result,
 });
