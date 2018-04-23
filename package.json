@@ -1,6 +1,6 @@
 {
   "name": "thunder-scores",
-  "version": "0.0.1-alpha",
+  "version": "0.1.0-alpha",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.5",
