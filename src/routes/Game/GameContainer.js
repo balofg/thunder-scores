@@ -7,6 +7,7 @@ const mapStateToProps = (state) => {
   const hand = state.hands.find(({ status }) => status === 'OPEN');
   return {
     hand,
+    handsCount: state.hands.length - (hand ? 1 : 0),
     players: state.players.map(player => ({
       ...player,
       score: player.scores[player.scores.length - 1].score,

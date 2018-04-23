@@ -141,6 +141,7 @@ class Game extends Component {
     const {
       players,
       hand,
+      handsCount,
       dealHand,
       closeHand,
       placeBet,
@@ -224,6 +225,10 @@ class Game extends Component {
               </div>
             )}
           </div>
+
+          {!!handsCount && (
+            <p className="content">Previous hands: {handsCount}</p>
+          )}
 
           {doneBetting && (
             <p className="content">
@@ -396,6 +401,7 @@ Game.propTypes = {
   placeBet: PropTypes.func.isRequired,
   closeBet: PropTypes.func.isRequired,
   history: PropTypes.shape(historyPropTypes).isRequired,
+  handsCount: PropTypes.number.isRequired,
 };
 
 Game.defaultProps = {
