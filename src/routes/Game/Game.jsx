@@ -81,7 +81,10 @@ class Game extends Component {
       0,
     );
 
-    if (totalBetsValue === this.props.hand.cardsCount) {
+    if (
+      totalBetsValue === this.props.hand.cardsCount
+      && this.props.players.filter(({ bet }) => !bet).length === 1
+    ) {
       return false;
     }
 
