@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { history as historyPropTypes } from 'history-prop-types';
 
 class Game extends Component {
   constructor(props) {
@@ -14,6 +15,12 @@ class Game extends Component {
 
     this.onCardsCountChange = this.onCardsCountChange.bind(this);
     this.onDealerChange = this.onDealerChange.bind(this);
+  }
+
+  componentWillMount() {
+    if (this.props.players.length === 0) {
+      this.props.history.push('players');
+    }
   }
 
   onCardsCountChange({ target: { value } }) {
@@ -89,7 +96,7 @@ class Game extends Component {
                   </div>
                 </div>
 
-                <div className="column" style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <div className="column is-flex" style={{ justifyContent: 'flex-end' }}>
                   <button
                     className="button is-primary is-pulled-right"
                     style={{ alignSelf: 'flex-end' }}
@@ -107,7 +114,7 @@ class Game extends Component {
             {players.map(player => (
               <div className="column is-one-third" key={player.id}>
                 <div className="card">
-                  <div className="card-content">
+                  <div className="card-content has-text-centered">
                     <div className="level is-mobile">
                       <div className="level-left">
                         <div className="level-item">
@@ -124,25 +131,79 @@ class Game extends Component {
                         </div>
                       </div>
                     </div>
-                    {!player.bet && (
-                      <div className="columns is-mobile is-centered">
-                        <span className="column">
+
+                    {!player.bet && !!hand && (
+                      <div className="field has-addons" style={{ justifyContent: 'center' }}>
+                        <span className="control">
                           <input
                             className="input"
-                            type="number"
+                            type="text"
                             placeholder="Bet value"
                           />
                         </span>
-                        <span className="column">
-                          <button
-                            className="button is-info"
-                          >
+                        <span className="control">
+                          <button className="button">
                             Place bet
                           </button>
                         </span>
                       </div>
                     )}
+
+                    {!!hand && player.bet && player.bet.status === 'OPEN' && (
+                      <div>
+                        <div className="level is-mobile">
+                          <div className="level-left">
+                            <div className="level-item">Bet value</div>
+                          </div>
+                          <div className="level-right">
+                            <div className="level-item">
+                              {player.bet.value}
+                              {' / '}
+                              {hand.cardsCount}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="field has-addons" style={{ justifyContent: 'center' }}>
+                          <span className="control">
+                            <input
+                              className="input"
+                              type="text"
+                              placeholder="Result"
+                            />
+                          </span>
+                          <span className="control">
+                            <button className="button">
+                              End bet
+                            </button>
+                          </span>
+                        </div>
+                      </div>
+                    )}
                   </div>
+
+                  {player.bet && player.bet.status === 'CLOSED' && player.bet.value === player.bet.result && (
+                    <footer className="card-footer">
+                      <div className="card-footer-item has-background-success has-text-white">
+                        <span className="icon is-big">
+                          <i className="fas fa-check" />
+                        </span>
+
+                        <span>WON</span>
+                      </div>
+                    </footer>
+                  )}
+
+                  {player.bet && player.bet.status === 'CLOSED' && player.bet.value !== player.bet.result && (
+                    <footer className="card-footer">
+                      <div className="card-footer-item has-background-danger has-text-white">
+                        <span className="icon is-big">
+                          <i className="fas fa-times" />
+                        </span>
+
+                        <span>LOST</span>
+                      </div>
+                    </footer>
+                  )}
                 </div>
               </div>
             ))}
@@ -175,6 +236,7 @@ Game.propTypes = {
   bets: PropTypes.arrayOf(betShape).isRequired,
   dealHand: PropTypes.func.isRequired,
   closeHand: PropTypes.func.isRequired,
+  history: PropTypes.shape(historyPropTypes).isRequired,
 };
 
 Game.defaultProps = {
