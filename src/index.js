@@ -12,6 +12,7 @@ import 'bulma/css/bulma.min.css';
 import HomeRoute from './routes/Home';
 import PlayersRoute from './routes/Players';
 import GameRoute from './routes/Game';
+import ScoreboardRoute from './routes/Scoreboard';
 
 import reducers from './store/reducers';
 
@@ -30,6 +31,7 @@ const App = () => (
         <Route path="/" component={HomeRoute} exact />
         <Route path="/players" component={PlayersRoute} />
         <Route path="/game" component={GameRoute} />
+        <Route path="/scores" component={ScoreboardRoute} />
       </Switch>
     </Router>
   </Provider>

@@ -12,10 +12,10 @@ export const startGame = playerNames => ({
 
 export const dealHand = (dealerId, cardsCount) => ({
   type: 'DEAL_HAND',
+  timestamp: moment().valueOf(),
   hand: {
     cardsCount,
     dealerId,
-    timestamp: moment().valueOf(),
     id: v4(),
   },
 });

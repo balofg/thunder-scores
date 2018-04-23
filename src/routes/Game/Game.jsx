@@ -355,6 +355,17 @@ class Game extends Component {
               </div>
             ))}
           </div>
+
+          <div className="content has-text-right">
+            <button
+              className="button"
+            >
+              <span className="icon is-small">
+                <i className="fas fa-table" />
+              </span>
+              <span>Scoreboard</span>
+            </button>
+          </div>
         </div>
       </div>
     );

@@ -18,6 +18,7 @@ const reducer = (state = initialState, action) => {
           ...state.hands,
           {
             ...action.hand,
+            dealtTimestamp: action.timestamp,
             status: 'OPEN',
           },
         ],
@@ -29,7 +30,11 @@ const reducer = (state = initialState, action) => {
           ...state,
           hands: [
             ...state.hands.slice(0, handIndex),
-            { ...action.hand, status: 'CLOSED' },
+            {
+              ...action.hand,
+              closedTimestamp: action.timestamp,
+              status: 'CLOSED',
+            },
             ...state.hands.slice(handIndex + 1),
           ],
         };
