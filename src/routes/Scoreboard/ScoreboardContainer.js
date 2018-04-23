@@ -7,6 +7,7 @@ export default connect(state => ({
     name: player.name,
   })),
   hands: [...state.hands]
+    .filter(({ status }) => status === 'CLOSED')
     .sort((a, b) => a.dealtTimestamp - b.dealtTimestamp)
     .reduce(
       (hands, hand) => {
