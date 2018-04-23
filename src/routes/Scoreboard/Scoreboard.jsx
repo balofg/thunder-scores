@@ -46,15 +46,15 @@ class Scoreboard extends Component {
                     return (
                       <td
                         key={id}
-                        className={`has-text-white has-background-${bet.hasLost ? 'danger' : 'success'}`}
+                        className={`has-text-${bet.hasLost ? 'danger' : 'success'}`}
                       >
+                        <span>{bet.score}</span>
+
                         {bet.isDealer && (
-                          <span className="icon" style={{ marginRight: '15px' }}>
+                          <span className="icon" style={{ marginLeft: '15px' }}>
                             <i className="fas fa-star" />
                           </span>
                         )}
-
-                        <span>{bet.score}</span>
                       </td>
                     );
                   })}
