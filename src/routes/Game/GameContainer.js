@@ -6,6 +6,7 @@ import GameComponent from './Game';
 const mapStateToProps = (state) => {
   const hand = state.hands.find(({ status }) => status === 'OPEN');
   return {
+    hand,
     players: state.players.map(player => ({
       ...player,
       score: player.scores[player.scores.length - 1].score,
@@ -13,8 +14,7 @@ const mapStateToProps = (state) => {
         ? state.bets.find(bet => bet.handId === hand.id && bet.playerId === player.id)
         : undefined,
     })),
-    hand,
-    bets: state.bets.filter(bet => bet.handId === hand.id),
+    bets: hand ? state.bets.filter(bet => bet.handId === hand.id) : [],
   };
 };
 

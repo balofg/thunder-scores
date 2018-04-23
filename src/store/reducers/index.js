@@ -23,7 +23,7 @@ const reducer = (state = initialState, action) => {
         ],
       };
     case 'CLOSE_HAND': {
-      const handIndex = this.state.hands.findIndex(({ id }) => id === action.hand.id);
+      const handIndex = state.hands.findIndex(({ id }) => id === action.hand.id);
       if (handIndex > -1) {
         return {
           ...state,
@@ -80,7 +80,7 @@ const reducer = (state = initialState, action) => {
                 {
                   betId: bet.id,
                   timestamp: bet.timestamp,
-                  score: action.bet.result === action.bet.value
+                  score: bet.result === bet.value
                     ? currentScore + 10 + bet.value
                     : currentScore - bet.value,
                 },

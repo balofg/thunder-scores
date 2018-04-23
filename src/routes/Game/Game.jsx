@@ -135,7 +135,7 @@ class Game extends Component {
                 <button
                   className="button is-primary is-pulled-right"
                   disabled={!bets.length || bets.some(bet => bet.status === 'OPEN')}
-                  onClick={closeHand}
+                  onClick={() => closeHand(hand)}
                 >
                   Close hand
                 </button>
