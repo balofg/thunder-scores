@@ -130,7 +130,13 @@ class Game extends Component {
       0,
     );
 
-    if (totalResultsValue > this.props.hand.cardsCount) {
+    if (
+      totalResultsValue > this.props.hand.cardsCount
+      || (
+        this.props.players.filter(({ bet }) => bet && bet.result === undefined).length === 1
+        && totalResultsValue !== this.props.hand.cardsCount
+      )
+    ) {
       return false;
     }
 
