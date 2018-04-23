@@ -100,7 +100,7 @@ class PlayersRoute extends Component {
             <div className="control">
               <button
                 className="button is-primary"
-                disabled={fields.some(field => !field)}
+                disabled={fields.some(field => !field) || !fields.length}
                 onClick={this.submit}
               >
                 <span className="icon is-small">
