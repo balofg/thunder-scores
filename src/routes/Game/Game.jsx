@@ -150,6 +150,7 @@ class Game extends Component {
       handsCount,
       dealHand,
       closeHand,
+      abortHand,
       placeBet,
       closeBet,
     } = this.props;
@@ -170,6 +171,13 @@ class Game extends Component {
             {hand && hand.status === 'OPEN' ? (
               <h1 className="is-size-3">
                 {hand.cardsCount} card{hand.cardsCount > 1 ? 's' : ''} hand
+
+                <button
+                  className="button is-pulled-right"
+                  onClick={() => abortHand(hand)}
+                >
+                  Undo hand
+                </button>
 
                 <button
                   className="button is-primary is-pulled-right"
@@ -406,6 +414,7 @@ Game.propTypes = {
   closeHand: PropTypes.func.isRequired,
   placeBet: PropTypes.func.isRequired,
   closeBet: PropTypes.func.isRequired,
+  abortHand: PropTypes.func.isRequired,
   history: PropTypes.shape(historyPropTypes).isRequired,
   handsCount: PropTypes.number.isRequired,
 };
