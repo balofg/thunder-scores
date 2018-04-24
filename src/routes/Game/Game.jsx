@@ -169,29 +169,34 @@ class Game extends Component {
         <div className="container">
           <div className="content">
             {hand && hand.status === 'OPEN' ? (
-              <h1 className="is-size-3">
-                {hand.cardsCount} card{hand.cardsCount > 1 ? 's' : ''} hand
-
-                <div className="field is-grouped is-pulled-right">
-                  <div className="control">
-                    <button
-                      className="button"
-                      onClick={() => abortHand(hand)}
-                    >
-                      Undo hand
-                    </button>
-                  </div>
-                  <div className="control">
-                    <button
-                      className="button is-primary"
-                      disabled={!donePlaying}
-                      onClick={() => closeHand(hand)}
-                    >
-                      Close hand
-                    </button>
+              <div className="columns">
+                <div className="column is-8">
+                  <h2 className="is-size-2">
+                    {hand.cardsCount} card{hand.cardsCount > 1 ? 's' : ''} hand
+                  </h2>
+                </div>
+                <div className="column is-4">
+                  <div className="field is-grouped is-flex" style={{ justifyContent: 'flex-end' }}>
+                    <div className="control">
+                      <button
+                        className="button"
+                        onClick={() => abortHand(hand)}
+                      >
+                        Undo hand
+                      </button>
+                    </div>
+                    <div className="control">
+                      <button
+                        className="button is-primary"
+                        disabled={!donePlaying}
+                        onClick={() => closeHand(hand)}
+                      >
+                        Close hand
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </h1>
+              </div>
             ) : (
               <div className="columns">
                 <div className="column">
@@ -233,7 +238,7 @@ class Game extends Component {
 
                 <div className="column is-flex" style={{ justifyContent: 'flex-end' }}>
                   <button
-                    className="button is-primary is-pulled-right"
+                    className="button is-primary"
                     style={{ alignSelf: 'flex-end' }}
                     disabled={!this.state.hand.dealerId || !this.state.hand.cardsCount}
                     onClick={() => dealHand(this.state.hand.dealerId, this.state.hand.cardsCount)}
