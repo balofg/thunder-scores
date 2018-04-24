@@ -6,6 +6,7 @@ class NumberInput extends Component {
     super(props);
     this.state = { value: props.value };
     this.onChange = this.onChange.bind(this);
+    this.onKeyPress = this.onKeyPress.bind(this);
   }
 
   componentWillReceiveProps({ value }) {
@@ -20,6 +21,14 @@ class NumberInput extends Component {
     }
   }
 
+  onKeyPress({ key }) {
+    if (key === 'Enter') {
+      if (typeof this.props.onEnter === 'function') {
+        this.props.onEnter();
+      }
+    }
+  }
+
   render() {
     const { value } = this.state;
     const { placeholder, isDanger } = this.props;
@@ -27,10 +36,11 @@ class NumberInput extends Component {
     return (
       <input
         className={`input ${isDanger ? 'is-danger' : ''}`}
-        type="text"
+        type="tel"
         placeholder={placeholder}
         value={value}
         onChange={this.onChange}
+        onKeyPress={this.onKeyPress}
       />
     );
   }
@@ -38,12 +48,14 @@ class NumberInput extends Component {
 
 NumberInput.propTypes = {
   onChange: PropTypes.func.isRequired,
+  onEnter: PropTypes.func,
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   placeholder: PropTypes.string,
   isDanger: PropTypes.bool,
 };
 
 NumberInput.defaultProps = {
+  onEnter: undefined,
   value: '',
   placeholder: undefined,
   isDanger: false,
