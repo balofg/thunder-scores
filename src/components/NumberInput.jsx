@@ -5,12 +5,32 @@ class NumberInput extends Component {
   constructor(props) {
     super(props);
     this.state = { value: props.value };
+    this.handleRef = this.handleRef.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
   }
 
   componentWillReceiveProps({ value }) {
     this.setState({ value });
+  }
+
+  componentWillUnmount() {
+    if (typeof this.props.onUnregisterFocusHandler === 'function') {
+      this.props.onUnregisterFocusHandler();
+    }
+  }
+
+  handleRef(element) {
+    if (typeof this.props.onRegisterFocusHandler === 'function') {
+      if (!this.element) {
+        this.element = element;
+
+        this.props.onRegisterFocusHandler({
+          focus: () => this.element.focus(),
+          blur: () => this.element.blur(),
+        });
+      }
+    }
   }
 
   onChange({ target: { value } }) {
@@ -35,6 +55,7 @@ class NumberInput extends Component {
 
     return (
       <input
+        ref={this.handleRef}
         className={`input ${isDanger ? 'is-danger' : ''}`}
         type="tel"
         placeholder={placeholder}
@@ -49,6 +70,8 @@ class NumberInput extends Component {
 NumberInput.propTypes = {
   onChange: PropTypes.func.isRequired,
   onEnter: PropTypes.func,
+  onRegisterFocusHandler: PropTypes.func,
+  onUnregisterFocusHandler: PropTypes.func,
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   placeholder: PropTypes.string,
   isDanger: PropTypes.bool,
@@ -56,6 +79,8 @@ NumberInput.propTypes = {
 
 NumberInput.defaultProps = {
   onEnter: undefined,
+  onRegisterFocusHandler: undefined,
+  onUnregisterFocusHandler: undefined,
   value: '',
   placeholder: undefined,
   isDanger: false,
