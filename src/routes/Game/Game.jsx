@@ -172,20 +172,25 @@ class Game extends Component {
               <h1 className="is-size-3">
                 {hand.cardsCount} card{hand.cardsCount > 1 ? 's' : ''} hand
 
-                <button
-                  className="button is-pulled-right"
-                  onClick={() => abortHand(hand)}
-                >
-                  Undo hand
-                </button>
-
-                <button
-                  className="button is-primary is-pulled-right"
-                  disabled={!donePlaying}
-                  onClick={() => closeHand(hand)}
-                >
-                  Close hand
-                </button>
+                <div className="field is-grouped is-pulled-right">
+                  <div className="control">
+                    <button
+                      className="button"
+                      onClick={() => abortHand(hand)}
+                    >
+                      Undo hand
+                    </button>
+                  </div>
+                  <div className="control">
+                    <button
+                      className="button is-primary"
+                      disabled={!donePlaying}
+                      onClick={() => closeHand(hand)}
+                    >
+                      Close hand
+                    </button>
+                  </div>
+                </div>
               </h1>
             ) : (
               <div className="columns">
