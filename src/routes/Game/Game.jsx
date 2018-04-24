@@ -288,8 +288,13 @@ class Game extends Component {
                         <span className="control">
                           <NumberInput
                             value={this.state.bets[player.id]}
-                            onChange={value => this.onBetChange(player.id, value)}
                             placeholder="Bet value"
+                            onChange={value => this.onBetChange(player.id, value)}
+                            onEnter={() => {
+                              if (this.state.bets[player.id] !== undefined && this.canBet()) {
+                                placeBet(player.id, hand.id, this.state.bets[player.id]);
+                              }
+                            }}
                           />
                         </span>
                         <span className="control">
@@ -324,8 +329,13 @@ class Game extends Component {
                         <span className="control">
                           <NumberInput
                             value={this.state.results[player.id]}
-                            onChange={value => this.onResultChange(player.id, value)}
                             placeholder="Result"
+                            onChange={value => this.onResultChange(player.id, value)}
+                            onEnter={() => {
+                              if (this.state.results[player.id] !== undefined && this.canClose()) {
+                                closeBet(player.bet, this.state.results[player.id]);
+                              }
+                            }}
                           />
                         </span>
                         <span className="control">
