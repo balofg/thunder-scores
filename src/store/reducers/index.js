@@ -42,6 +42,30 @@ const reducer = (state = initialState, action) => {
 
       return state;
     }
+    case 'ABORT_HAND': {
+      const handIndex = state.hands.findIndex(({ id }) => id === action.hand.id);
+      if (handIndex > -1) {
+        return {
+          ...state,
+          hands: [
+            ...state.hands.slice(0, handIndex),
+            {
+              ...state.hand,
+              abortedTimestamp: action.timestamp,
+              status: 'ABORTED',
+            },
+            ...state.hands.slice(handIndex + 1),
+          ],
+          bets: state.bets.map(bet => (bet.handId === action.hand.id ? ({
+            ...bet,
+            abortedTimestamp: action.timestamp,
+            status: 'ABORTED',
+          }) : bet)),
+        };
+      }
+
+      return state;
+    }
     case 'PLACE_BET':
       return {
         ...state,

@@ -25,6 +25,12 @@ export const closeHand = hand => ({
   hand,
 });
 
+export const abortHand = hand => ({
+  type: 'ABORT_HAND',
+  timestamp: moment().valueOf(),
+  hand,
+});
+
 export const placeBet = (playerId, handId, value) => ({
   type: 'PLACE_BET',
   timestamp: moment().valueOf(),
