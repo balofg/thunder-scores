@@ -166,9 +166,13 @@ class Game extends Component {
     return true;
   }
 
-  canClose() {
+  canClose(overridePlayer = undefined, overrideValue = 0) {
     const totalResultsValue = this.props.players.reduce(
       (value, { id, bet }) => {
+        if (id === overridePlayer) {
+          return value + overrideValue;
+        }
+
         if (bet && bet.result !== undefined) {
           return value + bet.result;
         }
@@ -317,7 +321,7 @@ class Game extends Component {
             {players.map(player => (
               <div className="column is-one-third" key={player.id}>
                 <div className="card">
-                  <div className="card-content has-text-centered">
+                  <div className="card-content">
                     <div className="level is-mobile">
                       <div className="level-left">
                         <div className="level-item">
@@ -381,33 +385,51 @@ class Game extends Component {
                     )}
 
                     {player.bet && player.bet.status === 'OPEN' && doneBetting && (
-                      <div className="field has-addons" style={{ justifyContent: 'center' }}>
-                        <span className="control">
-                          <NumberInput
-                            value={this.state.results[player.id]}
-                            placeholder="Result"
-                            onChange={value => this.onResultChange(player.id, value)}
-                            onEnter={() => {
-                              if (this.state.results[player.id] !== undefined && this.canClose()) {
-                                closeBet(player.bet, this.state.results[player.id]);
-                              }
-                            }}
-                            onRegisterFocusHandler={handler =>
-                              this.registerResultFocusHandler(player.id, handler)}
-                            onUnregisterFocusHandler={() =>
-                              this.unregisterResultFocusHandler(player.id)}
-                          />
-                        </span>
-                        <span className="control">
+                      <div className="columns is-mobile">
+                        <div className="column is-4">
                           <button
-                            className="button"
-                            disabled={!this.canClose()
-                              || this.state.results[player.id] === undefined}
-                            onClick={() => closeBet(player.bet, this.state.results[player.id])}
+                            className="button has-text-success"
+                            disabled={!this.canClose(player.id, player.bet.value)}
+                            onClick={() => closeBet(player.bet, player.bet.value)}
                           >
-                            End bet
+                            Win
                           </button>
-                        </span>
+                        </div>
+                        <div className="column is-8">
+                          <div className="field has-addons">
+                            <span className="control">
+                              <NumberInput
+                                value={this.state.results[player.id]}
+                                placeholder="Result"
+                                onChange={value => this.onResultChange(player.id, value)}
+                                onEnter={() => {
+                                  if (
+                                    this.state.results[player.id] !== undefined
+                                    && this.canClose()
+                                    && this.state.results[player.id] !== player.bet.value
+                                  ) {
+                                    closeBet(player.bet, this.state.results[player.id]);
+                                  }
+                                }}
+                                onRegisterFocusHandler={handler =>
+                                  this.registerResultFocusHandler(player.id, handler)}
+                                onUnregisterFocusHandler={() =>
+                                  this.unregisterResultFocusHandler(player.id)}
+                              />
+                            </span>
+                            <span className="control">
+                              <button
+                                className="button has-text-danger"
+                                disabled={!this.canClose()
+                                  || this.state.results[player.id] === undefined
+                                  || this.state.results[player.id] === player.bet.value}
+                                onClick={() => closeBet(player.bet, this.state.results[player.id])}
+                              >
+                                Lose
+                              </button>
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     )}
 
