@@ -92,14 +92,16 @@ class Game extends Component {
   }
 
   nextFocus() {
-    const betFocusHandlerKeys = Object.keys(this.betFocusHandlers);
+    const betFocusHandlerKeys = Object
+      .keys(this.betFocusHandlers);
 
     if (betFocusHandlerKeys.length > 0) {
       this.betFocusHandlers[betFocusHandlerKeys[0]].focus();
       return;
     }
 
-    const resultFocusHandlerKeys = Object.keys(this.resultFocusHandlers);
+    const resultFocusHandlerKeys = Object
+      .keys(this.resultFocusHandlers);
 
     if (resultFocusHandlerKeys.length > 0) {
       this.resultFocusHandlers[resultFocusHandlerKeys[0]].focus();
