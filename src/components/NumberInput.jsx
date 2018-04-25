@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 class NumberInput extends Component {
   constructor(props) {
     super(props);
+
     this.state = { value: props.value };
+
     this.handleRef = this.handleRef.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
@@ -26,8 +28,8 @@ class NumberInput extends Component {
         this.element = element;
 
         this.props.onRegisterFocusHandler({
-          focus: () => this.element.focus(),
-          blur: () => this.element.blur(),
+          focus: () => element.focus(),
+          blur: () => element.blur(),
         });
       }
     }
