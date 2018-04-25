@@ -27,7 +27,7 @@ const mapStateToProps = (state) => {
           state.players[i % state.players.length].id,
         ];
       }
-    }  
+    }
   }
 
   return {
