@@ -44,14 +44,15 @@ class Scoreboard extends Component {
                   {players.map(({ id }) => {
                     const bet = hand.bets.find(({ player }) => player === id);
                     return (
-                      <td
-                        key={id}
-                        className={`has-text-${bet.hasLost ? 'danger' : 'success'}`}
-                      >
-                        <span>{bet.score}</span>
+                      <td key={id}>
+                        <span
+                          className={`has-text-${bet.hasLost ? 'danger' : 'success'}`}
+                        >
+                          {bet.score}
+                        </span>
 
                         {bet.isDealer && (
-                          <span className="icon" style={{ marginLeft: '15px' }}>
+                          <span className="icon has-text-grey-lighter" style={{ marginLeft: '15px' }}>
                             <i className="fas fa-star" />
                           </span>
                         )}
