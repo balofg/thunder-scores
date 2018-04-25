@@ -4,15 +4,28 @@ import { dealHand, closeHand, abortHand, placeBet, closeBet } from '../../store/
 import GameComponent from './Game';
 
 const mapStateToProps = (state) => {
-  const hand = state.hands.find(({ status }) => status === 'OPEN');
+  const currentHand = state.hands.find(({ status }) => status === 'OPEN');
+  const previousHands = state.hands.filter(({ status }) => status === 'CLOSED');
+
+  let nextDealerId = state.players.length ? state.players[0].id : '';
+
+  if (previousHands.length) {
+    const lastDealerId = previousHands[previousHands.length - 1].dealerId;
+    const lastDealerPlayerIndex = state.players.findIndex(({ id }) => id === lastDealerId);
+    if (lastDealerPlayerIndex > -1) {
+      nextDealerId = state.players[(lastDealerPlayerIndex + 1) % state.players.length].id;
+    }
+  }
+
   return {
-    hand,
-    handsCount: state.hands.filter(({ status }) => status !== 'ABORTED').length - (hand ? 1 : 0),
+    hand: currentHand,
+    handsCount: previousHands.length,
+    nextDealerId,
     players: state.players.map(player => ({
       ...player,
       score: player.scores[player.scores.length - 1].score,
-      bet: hand
-        ? state.bets.find(bet => bet.handId === hand.id && bet.playerId === player.id)
+      bet: currentHand
+        ? state.bets.find(bet => bet.handId === currentHand.id && bet.playerId === player.id)
         : undefined,
     })),
   };

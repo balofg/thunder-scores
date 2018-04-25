@@ -40,11 +40,11 @@ class Game extends Component {
     this.checkData(nextProps, nextProps.hand !== this.props.hand);
   }
 
-  checkData({ hand, players }, reset) {
+  checkData({ hand, players, nextDealerId }, reset) {
     this.setState({
       hand: hand ? undefined : {
         cardsCount: 1,
-        dealerId: '',
+        dealerId: nextDealerId,
       },
       bets: players.reduce(
         (bets, { id }) => ({
@@ -277,7 +277,6 @@ class Game extends Component {
                           style={{ width: '100%' }}
                           onChange={this.onDealerChange}
                         >
-                          <option disabled value="">Choose...</option>
                           {players.map(player => (
                             <option
                               value={player.id}
