@@ -17,10 +17,10 @@ class Game extends Component {
     this.unregisterBetFocusHandler = this.unregisterBetFocusHandler.bind(this);
     this.unregisterResultFocusHandler = this.unregisterResultFocusHandler.bind(this);
 
-    this.nextFocus = this.nextFocus.bind(this);
     this.canBet = this.canBet.bind(this);
     this.canClose = this.canClose.bind(this);
     this.checkData = this.checkData.bind(this);
+    this.placeBet = this.placeBet.bind(this);
 
     this.onCardsCountChange = this.onCardsCountChange.bind(this);
     this.onDealerChange = this.onDealerChange.bind(this);
@@ -64,7 +64,22 @@ class Game extends Component {
   }
 
   componentDidUpdate() {
-    this.nextFocus();
+    const { lastCommit } = this;
+    const { players } = this.props;
+
+    if (lastCommit) {
+      if (players.filter(({ bet }) => bet).length < players.length) {
+        const filteredPlayers = players.filter(({ id, bet }) => id === lastCommit || !bet);
+        const playerIndex = filteredPlayers.findIndex(({ id }) => id === lastCommit);
+        if (playerIndex > -1) {
+          const nextPlayerId = filteredPlayers[(playerIndex + 1) % filteredPlayers.length].id;
+          if (nextPlayerId in this.betFocusHandlers) {
+            this.betFocusHandlers[nextPlayerId].focus();
+            this.lastCommit = undefined;
+          }
+        }
+      }
+    }
   }
 
   registerBetFocusHandler(playerId, handler) {
@@ -89,23 +104,6 @@ class Game extends Component {
   unregisterResultFocusHandler(playerId) {
     const { [playerId]: handler, ...resultFocusHandlers } = this.resultFocusHandlers;
     this.resultFocusHandlers = resultFocusHandlers;
-  }
-
-  nextFocus() {
-    const betFocusHandlerKeys = Object
-      .keys(this.betFocusHandlers);
-
-    if (betFocusHandlerKeys.length > 0) {
-      this.betFocusHandlers[betFocusHandlerKeys[0]].focus();
-      return;
-    }
-
-    const resultFocusHandlerKeys = Object
-      .keys(this.resultFocusHandlers);
-
-    if (resultFocusHandlerKeys.length > 0) {
-      this.resultFocusHandlers[resultFocusHandlerKeys[0]].focus();
-    }
   }
 
   onCardsCountChange(value) {
@@ -201,6 +199,15 @@ class Game extends Component {
     return true;
   }
 
+  placeBet(playerId) {
+    const { hand, placeBet } = this.props;
+    const { bets: { [playerId]: value } } = this.state;
+    if (hand) {
+      placeBet(playerId, hand.id, value);
+      this.lastCommit = playerId;
+    }
+  }
+
   render() {
     const {
       players,
@@ -209,7 +216,6 @@ class Game extends Component {
       dealHand,
       closeHand,
       abortHand,
-      placeBet,
       closeBet,
     } = this.props;
 
@@ -349,7 +355,7 @@ class Game extends Component {
                             onChange={value => this.onBetChange(player.id, value)}
                             onEnter={() => {
                               if (this.state.bets[player.id] !== undefined && this.canBet()) {
-                                placeBet(player.id, hand.id, this.state.bets[player.id]);
+                                this.placeBet(player.id);
                               }
                             }}
                             onRegisterFocusHandler={handler =>
@@ -362,7 +368,7 @@ class Game extends Component {
                           <button
                             className="button"
                             disabled={!this.canBet() || this.state.bets[player.id] === undefined}
-                            onClick={() => placeBet(player.id, hand.id, this.state.bets[player.id])}
+                            onClick={() => this.placeBet(player.id)}
                           >
                             Place bet
                           </button>
@@ -412,10 +418,6 @@ class Game extends Component {
                                     closeBet(player.bet, this.state.results[player.id]);
                                   }
                                 }}
-                                onRegisterFocusHandler={handler =>
-                                  this.registerResultFocusHandler(player.id, handler)}
-                                onUnregisterFocusHandler={() =>
-                                  this.unregisterResultFocusHandler(player.id)}
                               />
                             </span>
                             <span className="control">
