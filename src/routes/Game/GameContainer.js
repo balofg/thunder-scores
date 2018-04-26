@@ -24,7 +24,7 @@ const mapStateToProps = (state) => {
       for (let i = currentDealerIndex; i < currentDealerIndex + state.players.length; i += 1) {
         playersSorting = [
           ...playersSorting,
-          state.players[i % state.players.length].id,
+          state.players[(i + 1) % state.players.length].id,
         ];
       }
     }
