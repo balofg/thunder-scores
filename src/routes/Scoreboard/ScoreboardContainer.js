@@ -22,6 +22,8 @@ export default connect(state => ({
                 player: player.id,
                 cards: hand.cardsCount,
                 score: betScore.score,
+                value: bet.value,
+                result: bet.result,
                 isDealer: player.id === hand.dealerId,
                 hasLost: bet.value !== bet.result,
               });

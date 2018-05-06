@@ -51,6 +51,10 @@ class Scoreboard extends Component {
                           {bet.score}
                         </span>
 
+                        <span style={{ marginLeft: '15px' }}>
+                          ({bet.value})
+                        </span>
+
                         {bet.isDealer && (
                           <span className="icon has-text-grey-lighter" style={{ marginLeft: '15px' }}>
                             <i className="fas fa-star" />
