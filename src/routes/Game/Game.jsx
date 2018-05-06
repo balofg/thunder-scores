@@ -61,6 +61,23 @@ class Game extends Component {
         reset ? {} : (this.state.results || {}),
       ),
     });
+
+    if (!hand) return;
+
+    const bets = players.map(({ bet }) => bet || {});
+
+    if (bets.some(({ status }) => status === 'CLOSED')) {
+      const totalResults = bets.reduce(
+        (sum, { result }) => sum + (result || 0),
+        0,
+      );
+
+      if (totalResults === hand.cardsCount) {
+        bets
+          .filter(({ status }) => status === 'OPEN')
+          .forEach(bet => this.props.closeBet(bet, 0));
+      }
+    }
   }
 
   componentDidUpdate() {
