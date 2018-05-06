@@ -46,14 +46,29 @@ class Scoreboard extends Component {
                     const bet = hand.bets.find(({ player }) => player === id);
                     return (
                       <td key={id}>
-                        <span
-                          className={`has-text-${bet.hasLost ? 'danger' : 'success'}`}
-                        >
-                          {bet.score}
-                        </span>
+                        <span className="field is-grouped">
+                          <span className="control">
+                            <span
+                              className={`has-text-${bet.hasLost ? 'danger' : 'success'}`}
+                            >
+                              {bet.score}
+                            </span>
+                          </span>
 
-                        <span className={`tag is-rounded ${bet.isDealer ? 'is-dark' : ''}`} style={{ marginLeft: '15px' }}>
-                          {bet.value}
+                          <span className="control">
+                            <span className="tags has-addons">
+                              <span className="tag is-rounded">
+                                {bet.value}
+                              </span>
+                              {bet.isDealer ? (
+                                <span className="tag is-rounded">
+                                  <span className="icon">
+                                    <i className="fas fa-star" />
+                                  </span>
+                                </span>
+                              ) : null}
+                            </span>
+                          </span>
                         </span>
                       </td>
                     );
