@@ -42,6 +42,7 @@ class Scoreboard extends Component {
                     <strong>{hand.cards}</strong>
                   </td>
                   {players.map(({ id }) => {
+                    // make sure bets are ordered by player
                     const bet = hand.bets.find(({ player }) => player === id);
                     return (
                       <td key={id}>
