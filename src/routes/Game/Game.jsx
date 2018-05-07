@@ -40,10 +40,18 @@ class Game extends Component {
     this.checkData(nextProps, nextProps.hand !== this.props.hand);
   }
 
-  checkData({ hand, players, nextDealerId }, reset) {
+  checkData(
+    {
+      hand,
+      players,
+      nextDealerId,
+      lastCardsCount,
+    },
+    reset,
+  ) {
     this.setState({
       hand: hand ? undefined : {
-        cardsCount: 1,
+        cardsCount: lastCardsCount,
         dealerId: nextDealerId,
       },
       bets: players.reduce(
@@ -65,7 +73,6 @@ class Game extends Component {
     if (!hand) return;
 
     const bets = players.map(({ bet }) => bet || {});
-
     const closedBets = bets.filter(({ status }) => status === 'CLOSED');
 
     if (closedBets.length < bets.length) {

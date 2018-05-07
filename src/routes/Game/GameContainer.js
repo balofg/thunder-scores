@@ -8,13 +8,17 @@ const mapStateToProps = (state) => {
   const previousHands = state.hands.filter(({ status }) => status === 'CLOSED');
 
   let nextDealerId = state.players.length ? state.players[0].id : '';
+  let lastCardsCount = 1;
 
   if (previousHands.length) {
-    const lastDealerId = previousHands[previousHands.length - 1].dealerId;
+    const lastHand = previousHands[previousHands.length - 1];
+    const lastDealerId = lastHand.dealerId;
     const lastDealerPlayerIndex = state.players.findIndex(({ id }) => id === lastDealerId);
     if (lastDealerPlayerIndex > -1) {
       nextDealerId = state.players[(lastDealerPlayerIndex + 1) % state.players.length].id;
     }
+
+    lastCardsCount = lastHand.cardsCount;
   }
 
   let playersSorting = [];
@@ -34,6 +38,7 @@ const mapStateToProps = (state) => {
     hand: currentHand,
     handsCount: previousHands.length,
     nextDealerId,
+    lastCardsCount,
     players: state.players
       .map(player => ({
         ...player,
