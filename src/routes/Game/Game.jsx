@@ -66,13 +66,20 @@ class Game extends Component {
 
     const bets = players.map(({ bet }) => bet || {});
 
-    if (bets.some(({ status }) => status === 'CLOSED')) {
+    const closedBets = bets.filter(({ status }) => status === 'CLOSED');
+
+    if (closedBets.length < bets.length) {
       const totalResults = bets.reduce(
         (sum, { result }) => sum + (result || 0),
         0,
       );
 
-      if (totalResults === hand.cardsCount) {
+      if (bets.length - closedBets.length === 1) {
+        const openBet = bets.find(({ status }) => status === 'OPEN');
+        if (openBet) {
+          this.props.closeBet(openBet, hand.cardsCount - totalResults);
+        }
+      } else if (totalResults === hand.cardsCount) {
         bets
           .filter(({ status }) => status === 'OPEN')
           .forEach(bet => this.props.closeBet(bet, 0));
@@ -279,55 +286,55 @@ class Game extends Component {
                 </div>
               </div>
             ) : (
-              <div className="columns">
-                <div className="column">
-                  <div className="field">
-                    <div className="control">
-                      <label className="label">Number of cards</label>
-                      <NumberInput
-                        onChange={this.onCardsCountChange}
-                        value={this.state.hand.cardsCount}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="column">
-                  <div className="field">
-                    <div className="control">
-                      <label className="label">Dealer</label>
-                      <div className="select" style={{ width: '100%' }}>
-                        <select
-                          value={this.state.hand.dealerId}
-                          style={{ width: '100%' }}
-                          onChange={this.onDealerChange}
-                        >
-                          {players.map(player => (
-                            <option
-                              value={player.id}
-                              key={player.id}
-                            >
-                              {player.name}
-                            </option>
-                          ))}
-                        </select>
+                <div className="columns">
+                  <div className="column">
+                    <div className="field">
+                      <div className="control">
+                        <label className="label">Number of cards</label>
+                        <NumberInput
+                          onChange={this.onCardsCountChange}
+                          value={this.state.hand.cardsCount}
+                        />
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="column is-flex" style={{ justifyContent: 'flex-end' }}>
-                  <button
-                    className="button is-primary"
-                    style={{ alignSelf: 'flex-end' }}
-                    disabled={!this.state.hand.dealerId || !this.state.hand.cardsCount}
-                    onClick={() => dealHand(this.state.hand.dealerId, this.state.hand.cardsCount)}
-                  >
-                    Deal hand
+                  <div className="column">
+                    <div className="field">
+                      <div className="control">
+                        <label className="label">Dealer</label>
+                        <div className="select" style={{ width: '100%' }}>
+                          <select
+                            value={this.state.hand.dealerId}
+                            style={{ width: '100%' }}
+                            onChange={this.onDealerChange}
+                          >
+                            {players.map(player => (
+                              <option
+                                value={player.id}
+                                key={player.id}
+                              >
+                                {player.name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="column is-flex" style={{ justifyContent: 'flex-end' }}>
+                    <button
+                      className="button is-primary"
+                      style={{ alignSelf: 'flex-end' }}
+                      disabled={!this.state.hand.dealerId || !this.state.hand.cardsCount}
+                      onClick={() => dealHand(this.state.hand.dealerId, this.state.hand.cardsCount)}
+                    >
+                      Deal hand
                   </button>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
 
           {!!handsCount && (
