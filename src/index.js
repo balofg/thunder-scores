@@ -8,6 +8,9 @@ import { Router, Switch, Route } from 'react-router-dom';
 import '@fortawesome/fontawesome';
 import '@fortawesome/fontawesome-free-solid';
 import 'bulma/css/bulma.min.css';
+import './index.css';
+
+import { version } from '../package.json';
 
 import HomeRoute from './routes/Home';
 import PlayersRoute from './routes/Players';
@@ -27,12 +30,15 @@ const history = createHashHistory();
 const App = () => (
   <Provider store={store}>
     <Router history={history}>
-      <Switch>
-        <Route path="/" component={HomeRoute} exact />
-        <Route path="/players" component={PlayersRoute} />
-        <Route path="/game" component={GameRoute} />
-        <Route path="/scores" component={ScoreboardRoute} />
-      </Switch>
+      <div>
+        <Switch>
+          <Route path="/" component={HomeRoute} exact />
+          <Route path="/players" component={PlayersRoute} />
+          <Route path="/game" component={GameRoute} />
+          <Route path="/scores" component={ScoreboardRoute} />
+        </Switch>
+        <div className="app-version">Thunder Scores v{version}</div>
+      </div>
     </Router>
   </Provider>
 );
