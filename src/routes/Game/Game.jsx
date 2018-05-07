@@ -88,13 +88,12 @@ class Game extends Component {
   }
 
   componentDidUpdate() {
-    const { lastCommit } = this;
     const { players } = this.props;
 
-    if (lastCommit) {
+    if (this.lastCommit) {
       if (players.filter(({ bet }) => bet).length < players.length) {
-        const filteredPlayers = players.filter(({ id, bet }) => id === lastCommit || !bet);
-        const playerIndex = filteredPlayers.findIndex(({ id }) => id === lastCommit);
+        const filteredPlayers = players.filter(({ id, bet }) => id === this.lastCommit || !bet);
+        const playerIndex = filteredPlayers.findIndex(({ id }) => id === this.lastCommit);
         if (playerIndex > -1) {
           const nextPlayerId = filteredPlayers[(playerIndex + 1) % filteredPlayers.length].id;
           if (nextPlayerId in this.betFocusHandlers) {
@@ -102,6 +101,8 @@ class Game extends Component {
             this.lastCommit = undefined;
           }
         }
+      } else {
+        this.lastCommit = undefined;
       }
     }
   }
