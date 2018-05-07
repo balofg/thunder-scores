@@ -1,7 +1,8 @@
 {
   "name": "thunder-scores",
-  "version": "0.3.0-alpha",
+  "version": "0.3.1-alpha",
   "private": true,
+  "homepage": "thunder",
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.5",
     "@fortawesome/fontawesome-free-solid": "^5.0.10",
