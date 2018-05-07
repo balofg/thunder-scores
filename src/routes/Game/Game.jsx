@@ -554,6 +554,8 @@ Game.propTypes = {
   abortHand: PropTypes.func.isRequired,
   history: PropTypes.shape(historyPropTypes).isRequired,
   handsCount: PropTypes.number.isRequired,
+  nextDealerId: PropTypes.string.isRequired,
+  lastCardsCount: PropTypes.number.isRequired,
 };
 
 Game.defaultProps = {
