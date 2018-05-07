@@ -3,7 +3,6 @@
   "version": "0.4.0-alpha",
   "author": "Barney <balofg@live.com>",
   "private": true,
-  "homepage": "thunder",
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.5",
     "@fortawesome/fontawesome-free-solid": "^5.0.10",
