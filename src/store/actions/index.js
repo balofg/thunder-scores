@@ -3,6 +3,7 @@ import { v4 } from 'uuid';
 
 export const startGame = playerNames => ({
   type: 'START_GAME',
+  gameId: v4(),
   players: playerNames.map(name => ({
     name,
     id: v4(),
