@@ -19,74 +19,62 @@ const _db = idb.open('thunder', 1, (upgradeDb) => {
 
 export const getOpenGames = async () => {
   const db = await _db;
-  const transaction = db.transaction(['games']);
 
-  transaction
+  return db
+    .transaction(['games'])
     .objectStore('games')
     .index('status')
     .getAll('OPEN');
-
-  return transaction.complete;
 };
 
 export const getClosedGames = async () => {
   const db = await _db;
-  const transaction = db.transaction(['games']);
 
-  transaction
+  return db
+    .transaction(['games'])
     .objectStore('games')
     .index('status')
     .getAll('CLOSED');
-
-  return transaction.complete;
 };
 
 export const getPlayersByGame = async (gameId) => {
   const db = await _db;
-  const transaction = db.transaction(['players']);
 
-  transaction
+  return db
+    .transaction(['players'])
     .objectStore('players')
     .index('game')
     .getAll(gameId);
-
-  return transaction.complete;
 };
 
 export const getHandsByGame = async (gameId) => {
   const db = await _db;
-  const transaction = db.transaction(['hands']);
 
-  transaction
+  return db
+    .transaction(['hands'])
     .objectStore('hands')
     .index('game')
     .getAll(gameId);
-
-  return transaction.complete;
 };
 
 export const getBetsByHand = async (handId) => {
   const db = await _db;
-  const transaction = db.transaction(['bets']);
 
-  transaction
+  return db
+    .transaction(['bets'])
     .objectStre('bets')
     .index('hand')
     .getAll(handId);
-
-  return transaction.complete;
 };
 
-export const getBetsByPlayer = async (playerId) => {
+export const getBetsByGame = async (gameId) => {
   const db = await _db;
-  const transaction = db.transaction(['bets']);
 
-  transaction
-    .objectStore('bets')
-    .index('player')
-    .getAll(playerId);
-
-  return transaction.complete;
+  return db
+    .transaction(['bets'])
+    .objectStre('bets')
+    .index('game')
+    .getAll(gameId);
 };
 
 export const saveGame = async (game) => {
