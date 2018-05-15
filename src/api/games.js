@@ -8,7 +8,7 @@ export {
   getClosedGames,
 };
 
-export const startGame = async (players) => {
+export const startGame = async (playerNames) => {
   const game = {
     id: v4(),
     startedTimestamp: moment().valueOf(),
@@ -17,13 +17,14 @@ export const startGame = async (players) => {
     resumedTimestamps: [],
   };
 
-  const gamePlayers = players.map(player => ({
-    ...player,
+  const players = playerNames.map(name => ({
+    id: v4(),
+    name,
     gameId: game.id,
   }));
 
   await saveGame(game);
-  await savePlayers(gamePlayers);
+  await savePlayers(players);
 
   return {
     game,
