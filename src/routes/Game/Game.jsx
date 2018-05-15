@@ -10,12 +10,9 @@ class Game extends Component {
 
     this.state = {};
     this.betFocusHandlers = {};
-    this.resultFocusHandlers = {};
 
     this.registerBetFocusHandler = this.registerBetFocusHandler.bind(this);
-    this.registerResultFocusHandler = this.registerResultFocusHandler.bind(this);
     this.unregisterBetFocusHandler = this.unregisterBetFocusHandler.bind(this);
-    this.unregisterResultFocusHandler = this.unregisterResultFocusHandler.bind(this);
 
     this.canBet = this.canBet.bind(this);
     this.canClose = this.canClose.bind(this);
@@ -124,18 +121,6 @@ class Game extends Component {
   unregisterBetFocusHandler(playerId) {
     const { [playerId]: handler, ...betFocusHandlers } = this.betFocusHandlers;
     this.betFocusHandlers = betFocusHandlers;
-  }
-
-  registerResultFocusHandler(playerId, handler) {
-    this.resultFocusHandlers = {
-      ...this.resultFocusHandlers,
-      [playerId]: handler,
-    };
-  }
-
-  unregisterResultFocusHandler(playerId) {
-    const { [playerId]: handler, ...resultFocusHandlers } = this.resultFocusHandlers;
-    this.resultFocusHandlers = resultFocusHandlers;
   }
 
   onCardsCountChange(value) {
