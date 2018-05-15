@@ -27,7 +27,7 @@ class Game extends Component {
 
   componentWillMount() {
     if (this.props.players.length === 0) {
-      this.props.history.push('players');
+      this.props.history.push('/players');
     }
 
     this.checkData(this.props, true);

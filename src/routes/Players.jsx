@@ -46,7 +46,7 @@ class PlayersRoute extends Component {
 
   submit() {
     this.props.startGame(this.state.fields);
-    this.props.history.push('game');
+    this.props.history.push('/game');
   }
 
   render() {
