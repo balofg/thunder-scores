@@ -151,3 +151,14 @@ export const saveBet = async (bet) => {
 
   return transaction.complete;
 };
+
+export const saveScore = async (score) => {
+  const db = await _db;
+  const transaction = db.transaction(['scores'], 'readwrite');
+
+  transaction
+    .objectStore('scores')
+    .put(score);
+
+  return transaction.complete;
+};
