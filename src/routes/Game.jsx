@@ -55,6 +55,8 @@ class GameRoute extends Component {
       <div>
         <pre>
           {JSON.stringify(this.state.game, null, 4)}
+        </pre>
+        <pre>
           {JSON.stringify(this.state.players, null, 4)}
         </pre>
       </div>
