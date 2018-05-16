@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { v4 } from 'uuid';
+import uniqid from 'uniqid';
 
 import { getHandsByGame, saveHand } from './db';
 
@@ -7,7 +7,7 @@ export { getHandsByGame };
 
 export const dealHand = async (cardsCount, dealerId) => {
   const hand = {
-    id: v4(),
+    id: uniqid(),
     dealtTimestamp: moment().valueOf(),
     status: 'OPEN',
     cardsCount,

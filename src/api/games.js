@@ -1,16 +1,25 @@
 import moment from 'moment';
-import { v4 } from 'uuid';
+import uniqid from 'uniqid';
 
-import { getOpenGames, getClosedGames, saveGame, savePlayers } from './db';
+import {
+  getOpenGames,
+  getClosedGames,
+  getGame,
+  getPlayersByGame,
+  saveGame,
+  savePlayers,
+} from './db';
 
 export {
   getOpenGames,
   getClosedGames,
+  getGame,
+  getPlayersByGame,
 };
 
 export const startGame = async (playerNames) => {
   const game = {
-    id: v4(),
+    id: uniqid(),
     startedTimestamp: moment().valueOf(),
     status: 'OPEN',
     pausedTimestamps: [],
@@ -18,7 +27,7 @@ export const startGame = async (playerNames) => {
   };
 
   const players = playerNames.map(name => ({
-    id: v4(),
+    id: uniqid(),
     name,
     gameId: game.id,
   }));

@@ -34,8 +34,8 @@ const App = () => (
         <Switch>
           <Route path="/" component={HomeRoute} exact />
           <Route path="/players" component={PlayersRoute} />
-          <Route path="/game/:id(\d+\w+-+)" component={GameRoute} />
-          <Route path="/game/:id(\d+\w+-+)/scores" component={ScoreboardRoute} />
+          <Route path="/game/:id" component={GameRoute} />
+          <Route path="/game/:id/scores" component={ScoreboardRoute} />
         </Switch>
         <div className="app-version">Thunder Scores v{version}</div>
       </div>

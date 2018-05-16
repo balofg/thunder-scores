@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { v4 } from 'uuid';
+import uniqid from 'uniqid';
 
 import { getBetsByGame, getBetsByHand, saveBet } from './db';
 
@@ -10,7 +10,7 @@ export {
 
 export const placeBet = async (playerId, value) => {
   const bet = {
-    id: v4(),
+    id: uniqid(),
     placedTimestamp: moment().valueOf(),
     status: 'OPEN',
     value,

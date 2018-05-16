@@ -20,7 +20,7 @@
     "react-router-prop-types": "^1.0.3",
     "react-scripts": "1.1.4",
     "redux": "^4.0.0",
-    "uuid": "^3.2.1"
+    "uniqid": "^4.1.1"
   },
   "scripts": {
     "start": "react-scripts start",

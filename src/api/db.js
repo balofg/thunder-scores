@@ -37,6 +37,15 @@ export const getClosedGames = async () => {
     .getAll('CLOSED');
 };
 
+export const getGame = async (gameId) => {
+  const db = await _db;
+
+  return db
+    .transaction(['games'])
+    .objectStore('games')
+    .get(gameId);
+};
+
 export const getPlayersByGame = async (gameId) => {
   const db = await _db;
 
