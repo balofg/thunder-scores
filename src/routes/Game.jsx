@@ -34,6 +34,12 @@ class GameRoute extends Component {
 
     try {
       const game = await getGame(id);
+
+      if (game.status !== 'OPEN') {
+        this.props.history.push('scores');
+        return;
+      }
+
       const players = await getPlayersByGame(id);
 
       if (!game) {

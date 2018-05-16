@@ -15,6 +15,9 @@ const _db = idb.open('thunder', 1, (upgradeDb) => {
   const betsStore = upgradeDb.createObjectStore('bets', { keyPath: 'id' });
   betsStore.createIndex('hand', 'handId', { unique: false });
   betsStore.createIndex('game', 'gameId', { unique: false });
+
+  const scoresStore = upgradeDb.createObjectStore('scores', { keyPath: 'id' });
+  scoresStore.createIndex('game', 'gameId', { unique: false });
 });
 
 export const getOpenGames = async () => {
@@ -81,7 +84,7 @@ export const getBetsByHand = async (handId) => {
 
   return db
     .transaction(['bets'])
-    .objectStre('bets')
+    .objectStore('bets')
     .index('hand')
     .getAll(handId);
 };
@@ -91,7 +94,17 @@ export const getBetsByGame = async (gameId) => {
 
   return db
     .transaction(['bets'])
-    .objectStre('bets')
+    .objectStore('bets')
+    .index('game')
+    .getAll(gameId);
+};
+
+export const getScoresByGame = async (gameId) => {
+  const db = await _db;
+
+  return db
+    .transaction(['scores'])
+    .objectStore('scores')
     .index('game')
     .getAll(gameId);
 };
