@@ -1,11 +1,12 @@
 import moment from 'moment';
-import { v4 } from 'uuid';
+import uniqid from 'uniqid';
 
 export const startGame = playerNames => ({
   type: 'START_GAME',
+  gameId: uniqid(),
   players: playerNames.map(name => ({
     name,
-    id: v4(),
+    id: uniqid(),
     scores: [{ score: 0 }],
   })),
 });
@@ -16,7 +17,7 @@ export const dealHand = (dealerId, cardsCount) => ({
   hand: {
     cardsCount,
     dealerId,
-    id: v4(),
+    id: uniqid(),
   },
 });
 
@@ -38,7 +39,7 @@ export const placeBet = (playerId, handId, value) => ({
     playerId,
     handId,
     value,
-    id: v4(),
+    id: uniqid(),
   },
 });
 

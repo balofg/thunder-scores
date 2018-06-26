@@ -1,4 +1,5 @@
 const initialState = {
+  game: undefined,
   players: [],
   bets: [],
   hands: [],
@@ -9,7 +10,50 @@ const reducer = (state = initialState, action) => {
     case 'START_GAME':
       return {
         ...initialState,
+        game: {
+          id: action.gameId,
+          startedTimestamp: action.timestamp,
+          status: 'OPEN',
+          pausedTimestamps: [],
+          resumedTimestamps: [],
+        },
+        players: action.players.map(player => ({
+          ...player,
+          gameId: action.gameId,
+        })),
+      };
+    case 'RESUME_GAME':
+      return {
         players: action.players,
+        bets: action.players,
+        hands: action.hands,
+        game: {
+          ...action.game,
+          resumedTimestamps: [
+            ...action.game.resumedTimestamps,
+            action.timestamp,
+          ],
+        },
+      };
+    case 'PAUSE_GAME':
+      return {
+        ...state,
+        game: {
+          ...state.game,
+          pausedTimestamps: [
+            ...state.game.pausedTimestamps,
+            action.timestamp,
+          ],
+        },
+      };
+    case 'END_GAME':
+      return {
+        ...state,
+        game: {
+          ...state.game,
+          endedTimestamp: action.timestamp,
+          status: 'CLOSED',
+        },
       };
     case 'DEAL_HAND':
       return {

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { history as historyPropTypes } from 'history-prop-types';
-import { connect } from 'react-redux';
 
-import { startGame } from '../store/actions';
+import { startGame } from '../api/games';
 
 class PlayersRoute extends Component {
   constructor(props) {
@@ -44,9 +43,9 @@ class PlayersRoute extends Component {
     });
   }
 
-  submit() {
-    this.props.startGame(this.state.fields);
-    this.props.history.push('game');
+  async submit() {
+    const { game: { id } } = await startGame(this.state.fields);
+    this.props.history.push(`/game/${id}`);
   }
 
   render() {
@@ -119,8 +118,7 @@ class PlayersRoute extends Component {
 }
 
 PlayersRoute.propTypes = {
-  startGame: PropTypes.func.isRequired,
   history: PropTypes.shape(historyPropTypes),
 };
 
-export default connect(null, { startGame })(PlayersRoute);
+export default PlayersRoute;
