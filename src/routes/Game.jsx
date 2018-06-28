@@ -4,7 +4,6 @@ import historyPropTypes from 'history-prop-types';
 import { match } from 'react-router-prop-types';
 
 import { getGame, getPlayersByGame } from '../api/games';
-import BetController from '../components/BetController';
 
 class GameRoute extends Component {
   constructor(props) {
@@ -40,10 +39,14 @@ class GameRoute extends Component {
         return;
       }
 
-      const players = await getPlayersByGame(id);
-
       if (!game) {
         throw new Error('Game not found');
+      }
+
+      const players = await getPlayersByGame(id);
+
+      if (!players || !players.length) {
+        throw new Error('Players not found');
       }
 
       this.setState({

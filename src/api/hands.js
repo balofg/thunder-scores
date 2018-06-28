@@ -19,11 +19,11 @@ export const dealHand = async (cardsCount, dealerId) => {
   return hand;
 };
 
-export const closeHand = async (hand) => {
+export const closeHand = async (hand, status = 'CLOSED') => {
   const closedHand = {
     ...hand,
+    status,
     closedTimestamp: moment().valueOf(),
-    status: 'CLOSED',
   };
 
   await saveHand(closedHand);
