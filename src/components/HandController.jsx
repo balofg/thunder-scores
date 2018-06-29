@@ -16,6 +16,8 @@ class HandController extends Component {
     };
 
     this.checkData = this.checkData.bind(this);
+    this.closeHand = this.closeHand.bind(this);
+    this.abortHand = this.abortHand.bind(this);
 
     this.onCardsCountChanged = this.onCardsCountChanged.bind(this);
     this.onDealerIdChanged = this.onDealerIdChanged.bind(this);
@@ -65,12 +67,26 @@ class HandController extends Component {
     this.setState({ dealerId });
   }
 
+  abortHand() {
+    if (typeof this.props.abortHand === 'function') {
+      this.props.abortHand(this.state.currentHand);
+    }
+  }
+
+  closeHand() {
+    if (typeof this.props.closeHand === 'function') {
+      this.props.closeHand(this.state.currentHand);
+    }
+  }
+
   render() {
     const { currentHand } = this.state;
     const { players } = this.props;
 
     if (currentHand) {
       const dealerPlayer = players.find(({ id }) => id === currentHand.dealer);
+      const { donePlaying } = this.props;
+
       return (
         <div className="section">
           <h2 className="title is-2">{dealerPlayer.name}&#39;s hand</h2>
@@ -80,11 +96,19 @@ class HandController extends Component {
           <div className="content">
             <div className="field is-grouped">
               <div className="control">
-                <button className="button is-primary">Close hand</button>
+                <button
+                  className="button is-primary"
+                  disabled={!donePlaying}
+                  onClick={this.closeHand}
+                >
+                  Close hand
+                </button>
               </div>
 
               <div className="control">
-                <button className="button">Abort hand</button>
+                <button className="button" onClick={this.abortHand}>
+                  Abort hand
+                </button>
               </div>
             </div>
           </div>
@@ -122,14 +146,10 @@ class HandController extends Component {
 
           <div className="field is-grouped">
             <div className="control">
-              <button className="button is-primary">
-                Deal hand
-              </button>
+              <button className="button is-primary">Deal hand</button>
             </div>
             <div className="control">
-              <button className="button">
-                End game
-              </button>
+              <button className="button">End game</button>
             </div>
           </div>
         </div>
@@ -144,6 +164,7 @@ HandController.propTypes = {
   dealHand: PropTypes.func.isRequired,
   closeHand: PropTypes.func.isRequired,
   abortHand: PropTypes.func.isRequired,
+  donePlaying: PropTypes.bool.isRequired,
   game: gamePropTypes.isRequired,
 };
 
