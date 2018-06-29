@@ -4,31 +4,33 @@ import historyPropTypes from 'history-prop-types';
 import { match } from 'react-router-prop-types';
 
 import { getGame, getPlayersByGame } from '../api/games';
+import { getHandsByGame } from '../api/hands';
+import { getBetsByGame } from '../api/bets';
 
 class GameRoute extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      loading: false,
       game: undefined,
       players: undefined,
+      bets: undefined,
+      hands: undefined,
     };
 
+    this.checkData = this.checkData.bind(this);
     this.loadGame = this.loadGame.bind(this);
   }
 
   componentWillMount() {
-    if (this.props.match.params.id) {
-      return this.loadGame();
-    }
+    this.checkData(this.props);
+  }
 
-    return this.props.history.push('/');
+  componentWillReceiveProps(nextProps) {
+    this.checkData(nextProps);
   }
 
   async loadGame() {
-    this.setState({ loading: true });
-
     const { match: { params: { id } } } = this.props;
 
     try {
@@ -49,14 +51,28 @@ class GameRoute extends Component {
         throw new Error('Players not found');
       }
 
+      const hands = await getHandsByGame(id) || [];
+      const bets = await getBetsByGame(id) || [];
+
       this.setState({
         game,
         players,
-        loading: false,
+        hands,
+        bets,
       });
     } catch (error) {
       this.props.history.push('/');
     }
+  }
+
+  checkData({ match: { params: { id: gameId } } }) {
+    const { game } = this.state;
+
+    if (!game || game.id !== gameId) {
+      return this.loadGame();
+    }
+
+    return this.props.history.push('/');
   }
 
   render() {

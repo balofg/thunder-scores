@@ -67,16 +67,16 @@ class HandController extends Component {
     this.setState({ dealerId });
   }
 
+  dealHand() {
+    this.props.dealHand(this.state.cardsCount, this.state.dealerId);
+  }
+
   abortHand() {
-    if (typeof this.props.abortHand === 'function') {
-      this.props.abortHand(this.state.currentHand);
-    }
+    this.props.abortHand(this.state.currentHand);
   }
 
   closeHand() {
-    if (typeof this.props.closeHand === 'function') {
-      this.props.closeHand(this.state.currentHand);
-    }
+    this.props.closeHand(this.state.currentHand);
   }
 
   render() {
@@ -146,10 +146,18 @@ class HandController extends Component {
 
           <div className="field is-grouped">
             <div className="control">
-              <button className="button is-primary">Deal hand</button>
+              <button
+                className="button is-primary"
+                disabled={!cardsCount || cardsCount > players.length / 52 || !dealerId}
+                onClick={this.dealHand}
+              >
+                Deal hand
+              </button>
             </div>
             <div className="control">
-              <button className="button">End game</button>
+              <button className="button" onClick={this.props.endGame}>
+                End game
+              </button>
             </div>
           </div>
         </div>
@@ -162,6 +170,7 @@ HandController.propTypes = {
   hands: PropTypes.arrayOf(handPropTypes).isRequired,
   players: PropTypes.arrayOf(playerPropTypes).isRequired,
   dealHand: PropTypes.func.isRequired,
+  endGame: PropTypes.func.isRequired,
   closeHand: PropTypes.func.isRequired,
   abortHand: PropTypes.func.isRequired,
   donePlaying: PropTypes.bool.isRequired,
