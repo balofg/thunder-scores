@@ -1,19 +1,21 @@
 import * as React from 'react';
-import './App.css';
-
-import logo from './logo.svg';
 
 class App extends React.Component {
   public render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
+      <div className="hero is-fullheight">
+        <div className="hero-body">
+          <div className="container">
+            <h1 className="title">Thunder Scores</h1>
+            <h2 className="subtitle">Automatic score-keeping tool</h2>
+            <button className="button is-primary">
+              <span className="icon">
+                <i className="fas fa-bolt" />
+              </span>
+              <span>New game</span>
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
