@@ -34,11 +34,17 @@ export interface IHandState extends ITimedEntity {
 }
 
 export interface IRoundState extends ITimedEntity {
-  winnerId: string;
+  winnerId?: string;
 }
 
 export interface IBetState {
+  id: string;
   value: number;
   playerId: string;
   status?: BetStatus;
+}
+
+export interface IApplicationState {
+  game: IGameState;
+  hands: IHandState[];
 }
