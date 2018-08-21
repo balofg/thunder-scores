@@ -82,12 +82,7 @@ class NumberInput extends React.Component<
     }
   }
 
-  private onKeyPress({
-    key
-  }: React.DetailedHTMLProps<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
-  >) {
+  private onKeyPress({ key }: React.KeyboardEvent<HTMLInputElement>) {
     if (key === "Enter") {
       if (typeof this.props.onEnter === "function") {
         this.props.onEnter();
