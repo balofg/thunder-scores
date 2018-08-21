@@ -3,8 +3,9 @@ import {
   IBetState,
   IPlayerState,
   IStore,
-  TimedEntityStatus
 } from "../../types/store";
+
+import { getClosedHands } from "./hands";
 
 const mockBet: IBetState = {
   id: "",
@@ -39,13 +40,12 @@ export function getPlayersCumulativeScores(state: IStore): IPlayerScore[] {
   }
 
   return state.game.players.reduce((result, player) => {
-    const playerBets = state.hands
-      .filter(({ status }) => status === TimedEntityStatus.CLOSED)
-      .map(
-        ({ bets }) =>
-          bets.find(({ playerId }) => playerId === player.id) || mockBet
-      )
-      .sort((a, b) => b.timestamp - a.timestamp);
+    const closedHands = getClosedHands(state);
+
+    const playerBets = closedHands.map(
+      ({ bets }) =>
+        bets.find(({ playerId }) => playerId === player.id) || mockBet
+    );
 
     const score = playerBets.reduce(
       (total, bet) =>
@@ -70,9 +70,7 @@ export function getHandsScores(state: IStore) {
     return [];
   }
 
-  const closedHands = state.hands
-    .filter(({ status }) => status === TimedEntityStatus.CLOSED)
-    .sort((a, b) => b.startDate - a.startDate);
+  const closedHands = getClosedHands(state);
 
   return closedHands.reduce((result: IHandScores[], hand, index) => {
     const previousHand = result[index - 1];
