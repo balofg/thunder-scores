@@ -18,6 +18,31 @@ export function dealHand(gameId: string, cardsCount: number, dealerId: string): 
   };
 }
 
+
+export interface IHandAbortAction {
+  handId: string;
+  type: "HAND_ABORT";
+}
+
+export function abortHand(handId: string) {
+  return {
+    handId,
+    type: "HAND_ABORT"
+  };
+}
+
+export interface IHandEndAction {
+  handId: string;
+  type: "HAND_END";
+}
+
+export function endHand(handId: string): IHandEndAction {
+  return {
+    handId,
+    type: "HAND_END"
+  };
+}
+
 export interface IBetPlaceAction {
   handId: string;
   id: string;
@@ -70,20 +95,9 @@ export function endRound(handId: string, roundId: string, winnerId: string): IRo
   };
 }
 
-export interface IHandAbortAction {
-  handId: string;
-  type: "HAND_ABORT";
-}
-
-export function abortHand(handId: string) {
-  return {
-    handId,
-    type: "HAND_ABORT"
-  };
-}
-
 export type HandAction =
   | IHandDealAction
+  | IHandEndAction
   | IHandAbortAction
   | IBetPlaceAction
   | IRoundStartAction

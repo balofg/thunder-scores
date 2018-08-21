@@ -46,6 +46,18 @@ export default function handsReducer(
 
       return state;
     }
+    case "HAND_END": {
+      const handIndex = state.findIndex(({ id }) => id === action.handId);
+      if (handIndex > -1) {
+        return replaceHandAtIndex(state, handIndex, {
+          ...state[handIndex],
+          endDate: moment().valueOf(),
+          status: TimedEntityStatus.CLOSED
+        });
+      }
+
+      return state;
+    }
     case "HAND_BET_PLACE": {
       const handIndex = state.findIndex(({ id }) => id === action.handId);
       if (handIndex > -1) {
