@@ -18,11 +18,11 @@ interface ITimedEntity {
   status: TimedEntityStatus;
 }
 
-export interface IGameState extends ITimedEntity {
+export type IGameState = ITimedEntity & {
   players: IPlayerState[];
-}
+} | undefined;
 
-export interface IPlayerState extends ITimedEntity {
+export interface IPlayerState {
   id: string;
   name: string;
 }

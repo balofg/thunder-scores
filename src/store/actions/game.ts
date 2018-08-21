@@ -7,10 +7,13 @@ export interface IGameStartAction {
   type: "GAME_START";
 }
 
-export function startGame(players: IPlayerState[]): IGameStartAction {
+export function startGame(playerNames: string[]): IGameStartAction {
   return {
     id: uniqid(),
-    players,
+    players: playerNames.map(name => ({
+      id: uniqid(),
+      name,
+    })),
     type: "GAME_START"
   };
 }
@@ -26,3 +29,5 @@ export function endGame(gameId: string): IGameEndAction {
     type: "GAME_END"
   };
 }
+
+export type GameAction = IGameStartAction | IGameEndAction;
