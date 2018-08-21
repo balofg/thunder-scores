@@ -1,7 +1,10 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+
 import { Provider } from "react-redux";
 import { createStore } from "redux";
+
+import { HashRouter } from "react-router-dom";
 
 import "@fortawesome/fontawesome-free/css/fontawesome.min.css";
 import "@fortawesome/fontawesome-free/css/solid.min.css";
@@ -17,7 +20,9 @@ const store = createStore(reducers);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <HashRouter>
+      <App />
+    </HashRouter>
   </Provider>,
   document.getElementById("root") as HTMLElement
 );
