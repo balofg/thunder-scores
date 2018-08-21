@@ -5,6 +5,8 @@ export enum TimedEntityStatus {
 }
 
 export enum BetStatus {
+  OPEN,
+  ABORTED,
   WON,
   LOST
 }
@@ -41,7 +43,8 @@ export interface IBetState {
   id: string;
   value: number;
   playerId: string;
-  status?: BetStatus;
+  status: BetStatus;
+  timestamp: number;
 }
 
 export interface IApplicationState {

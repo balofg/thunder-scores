@@ -1,6 +1,6 @@
 import * as moment from "moment";
 
-import { IHandState, TimedEntityStatus } from "../../types/store";
+import { BetStatus, IHandState, TimedEntityStatus } from "../../types/store";
 import { HandAction } from "../actions/hand";
 
 const initialState: IHandState[] = [];
@@ -56,6 +56,8 @@ export default function handsReducer(
             {
               id: action.id,
               playerId: action.playerId,
+              status: BetStatus.OPEN,
+              timestamp: moment().valueOf(),
               value: action.value
             }
           ]
@@ -89,17 +91,32 @@ export default function handsReducer(
         const roundIndex = state[handIndex].rounds.findIndex(
           ({ id }) => id === action.roundId
         );
+
         if (roundIndex > -1) {
           const round = hand.rounds[roundIndex];
 
-          const handStatus = hand.rounds.length === hand.cardsCount ? {
-            endDate: moment().valueOf(),
-            status: TimedEntityStatus.CLOSED,
-          } : {};
+          const bets =
+            hand.rounds.length === hand.cardsCount
+              ? hand.bets
+                  .filter(bet => bet.status === BetStatus.OPEN)
+                  .map(bet => {
+                    const playerResult = hand.rounds.filter(
+                      ({ winnerId }) => winnerId === bet.playerId
+                    ).length;
+
+                    return {
+                      ...bet,
+                      status:
+                        playerResult === bet.value
+                          ? BetStatus.WON
+                          : BetStatus.LOST
+                    };
+                  })
+              : hand.bets;
 
           return replaceHandAtIndex(state, handIndex, {
             ...hand,
-            ...handStatus,
+            bets,
             rounds: [
               ...hand.rounds.slice(0, roundIndex),
               {
