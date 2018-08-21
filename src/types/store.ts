@@ -1,12 +1,12 @@
 export enum TimedEntityStatus {
   OPEN,
   CLOSED,
-  ABORTED,
+  ABORTED
 }
 
 export enum BetStatus {
   WON,
-  LOST,
+  LOST
 }
 
 interface ITimedEntity {
@@ -30,7 +30,7 @@ export interface IHandState extends ITimedEntity {
   dealerId: string;
   gameId: string;
   bets: IBetState[];
-  rounds: IRoundState[];  
+  rounds: IRoundState[];
 }
 
 export interface IRoundState extends ITimedEntity {
