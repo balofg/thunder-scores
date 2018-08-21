@@ -18,9 +18,11 @@ interface ITimedEntity {
   status: TimedEntityStatus;
 }
 
-export type IGameState = ITimedEntity & {
-  players: IPlayerState[];
-} | undefined;
+export type IGameState =
+  | ITimedEntity & {
+      players: IPlayerState[];
+    }
+  | null;
 
 export interface IPlayerState {
   id: string;
@@ -48,6 +50,11 @@ export interface IBetState {
 }
 
 export interface IApplicationState {
+  game: IGameState;
+  hands: IHandState[];
+}
+
+export interface IStore {
   game: IGameState;
   hands: IHandState[];
 }

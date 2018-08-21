@@ -3,7 +3,7 @@ import * as moment from "moment";
 import { IGameState, TimedEntityStatus } from "../../types/store";
 import { GameAction } from "../actions/game";
 
-const initialState: IGameState = undefined;
+const initialState: IGameState = null;
 
 export default function gameReducer(state: IGameState = initialState, action: GameAction) {
   switch (action.type) {
@@ -16,7 +16,7 @@ export default function gameReducer(state: IGameState = initialState, action: Ga
       break;
     case "GAME_END":
       if (!state) {
-        return undefined;
+        return null;
       }
 
       return {
