@@ -91,8 +91,15 @@ export default function handsReducer(
         );
         if (roundIndex > -1) {
           const round = hand.rounds[roundIndex];
+
+          const handStatus = hand.rounds.length === hand.cardsCount ? {
+            endDate: moment().valueOf(),
+            status: TimedEntityStatus.CLOSED,
+          } : {};
+
           return replaceHandAtIndex(state, handIndex, {
             ...hand,
+            ...handStatus,
             rounds: [
               ...hand.rounds.slice(0, roundIndex),
               {
