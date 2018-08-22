@@ -39,20 +39,25 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
 
     if (currentHand) {
       const dealer = game.players.find(({ id }) => id === currentHand.dealerId);
+      const delta =
+        currentHand.bets.reduce((sum, { value }) => sum + value, 0) -
+        currentHand.cardsCount;
 
       return (
         <div className="section">
           <div className="container">
-            <h1 className="title">
-              {currentHand.cardsCount} card
-              {currentHand.cardsCount > 1 ? "s" : ""}
-            </h1>
             {!!dealer && (
               <h2 className="subtitle">
                 {dealer.name}
                 's hand
               </h2>
             )}
+            <h1 className="title">
+              {currentHand.cardsCount} card
+              {currentHand.cardsCount > 1 ? "s" : ""}; &Delta;{" "}
+              {delta > 0 ? "+" : ""}
+              {delta}
+            </h1>
             <div className="field is-grouped">
               <div className="control">
                 <button className="button" onClick={this.abortHand}>
