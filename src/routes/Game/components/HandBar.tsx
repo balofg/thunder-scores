@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import NumberInput from "../../../components/NumberInput";
 import { abortHand, dealHand, endHand } from "../../../store/actions/hand";
 import { IGameState, IHandState } from "../../../types/store";
 
@@ -15,6 +16,7 @@ interface IHandBarProps {
 
 interface IHandBarState {
   cardsCount?: number;
+  cardsCountError?: string;
   dealerId: string;
 }
 
@@ -73,9 +75,9 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
               <div className="field">
                 <label className="label">How many cards?</label>
                 <div className="control">
-                  <input
-                    type="text"
-                    className="input"
+                  <NumberInput
+                    onChange={this.onCardsCountChange}
+                    isDanger={!!this.state.cardsCountError}
                     value={this.state.cardsCount}
                   />
                 </div>
@@ -87,6 +89,7 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
                     <select
                       value={this.state.dealerId}
                       style={{ width: "100%" }}
+                      onChange={this.onDealerChange}
                     >
                       {game.players.map(player => (
                         <option key={player.id} value={player.id}>
@@ -101,7 +104,7 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
                 <div className="control">
                   <button
                     className="button is-primary"
-                    disabled={!this.canDealHand()}
+                    disabled={!!this.state.cardsCountError}
                     onClick={this.dealHand}
                   >
                     <span className="icon">
@@ -129,10 +132,6 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
     return false;
   };
 
-  private canDealHand = (): boolean => {
-    return !!this.state.dealerId && !!this.state.cardsCount;
-  };
-
   private dealHand = () => {
     // validation of `cardsCount` is done elsewhere
     // if this gets called when the value is undefined
@@ -151,6 +150,28 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
       this.props.abortHand(this.props.currentHand.id);
     }
   };
+
+  private onDealerChange = (event: React.SyntheticEvent<HTMLSelectElement>) => {
+    this.setState({ dealerId: event.currentTarget.value });
+  }
+
+  private onCardsCountChange = (value?: number) => {
+    let cardsCountError;
+
+    if (!this.props.game) {
+      return;
+    }
+    
+    if (value === undefined || value === 0) {
+      cardsCountError = "You can't play with no cards, can you?";
+    } else if (value < 0 || value > 52) {
+      cardsCountError = "What kind of deck are you trying to use?!";
+    } else if (value * this.props.game.players.length > 52) {
+      cardsCountError = "Everyone should get at least one card."
+    }
+
+    this.setState({ cardsCount: value, cardsCountError });
+  }
 }
 
 export default HandBar;

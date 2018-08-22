@@ -9,7 +9,7 @@ export interface INumberInputProps {
   onUnregisterFocusHandler?: () => void;
   value?: string | number;
   placeholder?: string;
-  isDanger: boolean;
+  isDanger?: boolean;
 }
 
 export interface INumberInputState {
