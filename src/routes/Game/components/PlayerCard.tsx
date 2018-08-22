@@ -58,9 +58,6 @@ class PlayerCard extends React.Component<IPlayerCardProps, IPlayerCardState> {
       ? currentHand.bets.length === game.players.length
       : false;
 
-    // tslint:disable
-    console.log(bet, wins, canPlay);
-
     return (
       <div className="card">
         <div className="card-content">
