@@ -14,7 +14,7 @@ interface IHandBarProps {
 }
 
 interface IHandBarState {
-  cardsCount: number;
+  cardsCount?: number;
   dealerId: string;
 }
 
@@ -46,7 +46,7 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
               </h1>
               <div className="field is-grouped">
                 <div className="control">
-                  <button className="button">
+                  <button className="button" onClick={this.abortHand}>
                     <span className="icon">
                       <i className="fas fa-undo" />
                     </span>
@@ -54,7 +54,11 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
                   </button>
                 </div>
                 <div className="control">
-                  <button className="button is-primary">
+                  <button
+                    className="button is-primary"
+                    disabled={!this.canEndHand()}
+                    onClick={this.endHand}
+                  >
                     <span className="icon">
                       <i className="fas fa-check" />
                     </span>
@@ -72,7 +76,7 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
                   <input
                     type="text"
                     className="input"
-                    value={this.props.nextCardsCount}
+                    value={this.state.cardsCount}
                   />
                 </div>
               </div>
@@ -95,7 +99,11 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
               </div>
               <div className="field">
                 <div className="control">
-                  <button className="button is-primary">
+                  <button
+                    className="button is-primary"
+                    disabled={!this.canDealHand()}
+                    onClick={this.dealHand}
+                  >
                     <span className="icon">
                       <i className="fas fa-bolt" />
                     </span>
@@ -109,6 +117,40 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
       </div>
     );
   }
+
+  private canEndHand = (): boolean => {
+    if (this.props.game && this.props.currentHand) {
+      return (
+        this.props.currentHand.rounds.length ===
+        this.props.currentHand.cardsCount
+      );
+    }
+
+    return false;
+  };
+
+  private canDealHand = (): boolean => {
+    return !!this.state.dealerId && !!this.state.cardsCount;
+  };
+
+  private dealHand = () => {
+    // validation of `cardsCount` is done elsewhere
+    // if this gets called when the value is undefined
+    // it is ok for this bit to explode uncontrollably
+    this.props.dealHand(this.state.cardsCount!!, this.state.dealerId);
+  };
+
+  private endHand = () => {
+    if (this.props.currentHand) {
+      this.props.endHand(this.props.currentHand.id);
+    }
+  };
+
+  private abortHand = () => {
+    if (this.props.currentHand) {
+      this.props.abortHand(this.props.currentHand.id);
+    }
+  };
 }
 
 export default HandBar;
