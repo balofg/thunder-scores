@@ -32,6 +32,7 @@ class Game extends React.Component<IGameProps> {
       <React.Fragment>
         <HandBar
           currentHand={this.props.currentHand}
+          game={this.props.game}
           nextDealerId={this.props.nextDealerId}
           nextCardsCount={this.props.nextCardsCount}
           abortHand={this.props.abortHand}
