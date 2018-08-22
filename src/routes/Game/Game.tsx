@@ -60,18 +60,26 @@ class Game extends React.Component<IGameProps> {
           endHand={this.props.endHand}
         />
 
-        {this.props.game.players.map(player => (
-          <PlayerCard
-            key={player.id}
-            player={player}
-            scores={this.props.scores}
-            game={this.props.game}
-            currentHand={this.props.currentHand}
-            currentRound={this.props.currentRound}
-            endRound={this.props.endRound}
-            placeBet={this.props.placeBet}
-          />
-        ))}
+        <div className="section">
+          <div className="container">
+            <div className="columns">
+              {this.props.game.players.map(player => (
+                <div className="column is-one-third">
+                  <PlayerCard
+                    key={player.id}
+                    player={player}
+                    scores={this.props.scores}
+                    game={this.props.game}
+                    currentHand={this.props.currentHand}
+                    currentRound={this.props.currentRound}
+                    endRound={this.props.endRound}
+                    placeBet={this.props.placeBet}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </React.Fragment>
     );
   }
