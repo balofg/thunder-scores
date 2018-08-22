@@ -33,7 +33,7 @@ class NumberInput extends React.Component<
   }
 
   public componentWillReceiveProps({ value }: INumberInputProps) {
-    this.setState({ value: value || "" });
+    this.setState({ value: value === undefined ? "" : value });
   }
 
   public componentWillUnmount() {

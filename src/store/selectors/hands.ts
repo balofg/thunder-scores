@@ -1,4 +1,4 @@
-import { IStore, TimedEntityStatus } from "../../types/store";
+import { IRoundState, IStore, TimedEntityStatus } from "../../types/store";
 
 export function getClosedHands(state: IStore) {
   return state.hands
@@ -10,18 +10,33 @@ export function getCurrentHand(state: IStore) {
   return state.hands.find(({ status }) => status === TimedEntityStatus.OPEN);
 }
 
+export function getCurrentRound(state: IStore): IRoundState | undefined {
+  const currentHand = getCurrentHand(state);
+  if (currentHand) {
+    return currentHand.rounds.find(
+      ({ status }) => status === TimedEntityStatus.OPEN
+    );
+  }
+
+  return undefined;
+}
+
 export function getNextHandDealerId(state: IStore) {
   if (state.game === null) {
-    return '';
+    return "";
   }
 
   const closedHands = getClosedHands(state);
   const previousHand = closedHands[closedHands.length - 1];
 
   if (previousHand) {
-    const previousPlayerIndex = state.game.players.findIndex(({ id }) => id === previousHand.dealerId);
+    const previousPlayerIndex = state.game.players.findIndex(
+      ({ id }) => id === previousHand.dealerId
+    );
     if (previousPlayerIndex > -1) {
-      return state.game.players[(previousPlayerIndex + 1) % state.game.players.length].id;
+      return state.game.players[
+        (previousPlayerIndex + 1) % state.game.players.length
+      ].id;
     }
   }
 
