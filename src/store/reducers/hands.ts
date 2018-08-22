@@ -114,9 +114,13 @@ export default function handsReducer(
               ? hand.bets
                   .filter(bet => bet.status === BetStatus.OPEN)
                   .map(bet => {
-                    const playerResult = hand.rounds.filter(
+                    let playerResult = hand.rounds.filter(
                       ({ winnerId }) => winnerId === bet.playerId
                     ).length;
+
+                    if (action.winnerId === bet.playerId) {
+                      playerResult += 1;
+                    }
 
                     return {
                       ...bet,

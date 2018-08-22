@@ -21,6 +21,19 @@ export function getCurrentRound(state: IStore): IRoundState | undefined {
   return undefined;
 }
 
+export function isDonePlaying(state: IStore): boolean {
+  const currentHand = getCurrentHand(state);
+  if (currentHand) {
+    const finishedRounds = currentHand.rounds.filter(
+      ({ status }) => status === TimedEntityStatus.CLOSED
+    ).length;
+
+    return finishedRounds === currentHand.cardsCount;
+  }
+
+  return false;
+}
+
 export function getNextHandDealerId(state: IStore) {
   if (state.game === null) {
     return "";

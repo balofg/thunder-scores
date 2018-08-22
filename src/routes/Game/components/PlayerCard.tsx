@@ -4,6 +4,7 @@ import NumberInput from "../../../components/NumberInput";
 import { endRound, placeBet } from "../../../store/actions/hand";
 import { IPlayerScore } from "../../../store/selectors/scores";
 import {
+  BetStatus,
   IGameState,
   IHandState,
   IPlayerState,
@@ -13,6 +14,7 @@ import {
 interface IPlayerCardProps {
   currentHand?: IHandState;
   currentRound?: IRoundState;
+  isDonePlaying: boolean;
   player: IPlayerState;
   scores: IPlayerScore[];
   game: IGameState;
@@ -98,7 +100,8 @@ class PlayerCard extends React.Component<IPlayerCardProps, IPlayerCardState> {
 
             {bet ? (
               <p className="is-size-2 has-text-centered">
-                {canPlay ? wins : "--"} / {bet.value}
+                {canPlay || this.props.isDonePlaying ? wins : "--"} /{" "}
+                {bet.value}
               </p>
             ) : null}
 
@@ -108,14 +111,26 @@ class PlayerCard extends React.Component<IPlayerCardProps, IPlayerCardState> {
           </div>
         </div>
 
-        {canPlay ? (
+        {canPlay && bet && bet.status === BetStatus.OPEN ? (
           <div className="card-footer">
-            <a className="card-footer-item">
+            <a className="card-footer-item" onClick={this.winRound}>
               <span className="icon">
                 <i className="fas fa-hand-paper" />
               </span>
               <span>Take</span>
             </a>
+          </div>
+        ) : null}
+
+        {bet && bet.status !== BetStatus.OPEN ? (
+          <div
+            className={`card-footer has-text-white has-background-${
+              bet.status === BetStatus.WON ? "success" : "danger"
+            }`}
+          >
+            <div className="card-footer-item">
+              {bet.status === BetStatus.WON ? "WON" : "LOST"}
+            </div>
           </div>
         ) : null}
       </div>
@@ -162,15 +177,15 @@ class PlayerCard extends React.Component<IPlayerCardProps, IPlayerCardState> {
     }
   };
 
-  // private winRound = () => {
-  //   if (this.props.currentHand && this.props.currentRound) {
-  //     this.props.endRound(
-  //       this.props.currentHand.id,
-  //       this.props.currentRound.id,
-  //       this.props.player.id
-  //     );
-  //   }
-  // };
+  private winRound = () => {
+    if (this.props.currentHand && this.props.currentRound) {
+      this.props.endRound(
+        this.props.currentHand.id,
+        this.props.currentRound.id,
+        this.props.player.id
+      );
+    }
+  };
 }
 
 export default PlayerCard;

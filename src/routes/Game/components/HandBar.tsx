@@ -7,6 +7,7 @@ import { IGameState, IHandState } from "../../../types/store";
 interface IHandBarProps {
   currentHand?: IHandState;
   game: IGameState;
+  isDonePlaying: boolean;
   nextDealerId: string;
   nextCardsCount: number;
   abortHand: typeof abortHand;
@@ -70,7 +71,7 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
               <div className="control">
                 <button
                   className="button is-primary"
-                  disabled={!this.canEndHand()}
+                  disabled={!this.props.isDonePlaying}
                   onClick={this.endHand}
                 >
                   <span className="icon">
@@ -138,17 +139,6 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
       </div>
     );
   }
-
-  private canEndHand = (): boolean => {
-    if (this.props.game && this.props.currentHand) {
-      return (
-        this.props.currentHand.rounds.length ===
-        this.props.currentHand.cardsCount
-      );
-    }
-
-    return false;
-  };
 
   private dealHand = () => {
     // validation of `cardsCount` is done elsewhere

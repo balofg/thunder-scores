@@ -19,6 +19,7 @@ interface IGameProps {
   game: IGameState;
   currentHand?: IHandState;
   currentRound?: IRoundState;
+  isDonePlaying: boolean;
   nextDealerId: string;
   nextCardsCount: number;
   scores: IPlayerScore[];
@@ -53,6 +54,7 @@ class Game extends React.Component<IGameProps> {
         <HandBar
           currentHand={this.props.currentHand}
           game={this.props.game}
+          isDonePlaying={this.props.isDonePlaying}
           nextDealerId={this.props.nextDealerId}
           nextCardsCount={this.props.nextCardsCount}
           abortHand={this.props.abortHand}
@@ -64,9 +66,8 @@ class Game extends React.Component<IGameProps> {
           <div className="container">
             <div className="columns">
               {this.props.game.players.map(player => (
-                <div className="column is-one-third">
+                <div className="column is-one-third" key={player.id}>
                   <PlayerCard
-                    key={player.id}
                     player={player}
                     scores={this.props.scores}
                     game={this.props.game}
@@ -74,6 +75,7 @@ class Game extends React.Component<IGameProps> {
                     currentRound={this.props.currentRound}
                     endRound={this.props.endRound}
                     placeBet={this.props.placeBet}
+                    isDonePlaying={this.props.isDonePlaying}
                   />
                 </div>
               ))}
@@ -85,9 +87,9 @@ class Game extends React.Component<IGameProps> {
   }
 
   private checkRound(props: IGameProps) {
-    if (!props.currentRound) {
-      if (props.currentHand) {
-        if (props.currentHand.rounds.length === props.currentHand.cardsCount) {
+    if (props.currentHand) {
+      if (!props.currentRound) {
+        if (!props.isDonePlaying) {
           this.props.startRound(props.currentHand.id);
         }
       }
