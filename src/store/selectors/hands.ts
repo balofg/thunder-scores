@@ -39,8 +39,8 @@ export function getNextHandDealerId(state: IStore) {
     return "";
   }
 
-  const closedHands = getClosedHands(state).reverse();
-  const previousHand = closedHands[0];
+  const closedHands = getClosedHands(state);
+  const previousHand = closedHands[closedHands.length - 1];
 
   if (previousHand) {
     const previousPlayerIndex = state.game.players.findIndex(
@@ -57,8 +57,8 @@ export function getNextHandDealerId(state: IStore) {
 }
 
 export function getNextHandCardsCount(state: IStore) {
-  const closedHands = getClosedHands(state).reverse();
-  const previousHand = closedHands[0];
+  const closedHands = getClosedHands(state);
+  const previousHand = closedHands[closedHands.length - 1];
 
   return previousHand ? previousHand.cardsCount : 1;
 }
