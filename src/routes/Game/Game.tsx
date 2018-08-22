@@ -75,7 +75,6 @@ class Game extends React.Component<IGameProps> {
                     currentRound={this.props.currentRound}
                     endRound={this.props.endRound}
                     placeBet={this.props.placeBet}
-                    isDonePlaying={this.props.isDonePlaying}
                   />
                 </div>
               ))}

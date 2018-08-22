@@ -14,7 +14,6 @@ import {
 interface IPlayerCardProps {
   currentHand?: IHandState;
   currentRound?: IRoundState;
-  isDonePlaying: boolean;
   player: IPlayerState;
   scores: IPlayerScore[];
   game: IGameState;
@@ -100,7 +99,7 @@ class PlayerCard extends React.Component<IPlayerCardProps, IPlayerCardState> {
 
             {bet ? (
               <p className="is-size-2 has-text-centered">
-                {canPlay || this.props.isDonePlaying ? wins : "--"} /{" "}
+                {canPlay || bet.status !== BetStatus.OPEN ? wins : "--"} /{" "}
                 {bet.value}
               </p>
             ) : null}
@@ -174,6 +173,8 @@ class PlayerCard extends React.Component<IPlayerCardProps, IPlayerCardState> {
         this.props.player.id,
         this.state.betValue!!
       );
+
+      this.setState({ betValue: undefined });
     }
   };
 

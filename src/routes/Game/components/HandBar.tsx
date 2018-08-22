@@ -31,6 +31,13 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
     };
   }
 
+  public componentWillReceiveProps({
+    nextCardsCount,
+    nextDealerId
+  }: IHandBarProps) {
+    this.setState({ cardsCount: nextCardsCount, dealerId: nextDealerId });
+  }
+
   public render() {
     const { currentHand, game } = this.props;
 
