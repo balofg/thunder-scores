@@ -24,11 +24,11 @@ class Players extends React.Component<IPlayersProps, IPlayersState> {
       <div className="section">
         <div className="container">
           <h1 className="title">New game</h1>
-          <h2 className="subtitle">Choose the players</h2>
+          <h2 className="subtitle">Who's playin'?</h2>
 
           {fields.map((field, index) => (
             <div className="field has-addons" key={index}>
-              <div className="control">
+              <div className="control is-expanded">
                 <input
                   className="input"
                   value={field}
