@@ -4,15 +4,13 @@ export interface IHandDealAction {
   cardsCount: number;
   dealerId: string;
   id: string;
-  gameId: string;
   type: "HAND_DEAL";
 }
 
-export function dealHand(gameId: string, cardsCount: number, dealerId: string): IHandDealAction {
+export function dealHand(cardsCount: number, dealerId: string): IHandDealAction {
   return {
     cardsCount,
     dealerId,
-    gameId,
     id: uniqid(),
     type: "HAND_DEAL"
   };

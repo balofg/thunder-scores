@@ -32,7 +32,6 @@ export interface IPlayerState {
 export interface IHandState extends ITimedEntity {
   cardsCount: number;
   dealerId: string;
-  gameId: string;
   bets: IBetState[];
   rounds: IRoundState[];
 }

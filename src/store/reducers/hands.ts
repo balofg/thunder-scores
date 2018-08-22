@@ -27,7 +27,6 @@ export default function handsReducer(
           bets: [],
           cardsCount: action.cardsCount,
           dealerId: action.dealerId,
-          gameId: action.gameId,
           id: action.id,
           rounds: [],
           startDate: moment().valueOf(),
