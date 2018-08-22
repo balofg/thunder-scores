@@ -1,6 +1,8 @@
+import { History } from "history";
 import * as React from "react";
 
 interface IPlayersProps {
+  history: History;
   startGame: (playerNames: string[]) => void;
 }
 
@@ -98,6 +100,7 @@ class Players extends React.Component<IPlayersProps, IPlayersState> {
 
   private submit = () => {
     this.props.startGame(this.state.fields);
+    this.props.history.push("game");
   };
 
   private onFieldChange = (index: number, value: string) => {

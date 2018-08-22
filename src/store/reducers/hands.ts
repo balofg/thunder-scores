@@ -1,6 +1,7 @@
 import * as moment from "moment";
 
 import { BetStatus, IHandState, TimedEntityStatus } from "../../types/store";
+import { GameAction } from "../actions/game";
 import { HandAction } from "../actions/hand";
 
 const initialState: IHandState[] = [];
@@ -17,9 +18,11 @@ const replaceHandAtIndex = (
 
 export default function handsReducer(
   state: IHandState[] = initialState,
-  action: HandAction
+  action: HandAction | GameAction
 ): IHandState[] {
   switch (action.type) {
+    case "GAME_START":
+      return initialState;
     case "HAND_DEAL":
       return [
         ...state,
