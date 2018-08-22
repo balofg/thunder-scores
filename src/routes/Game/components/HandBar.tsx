@@ -81,6 +81,9 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
                     value={this.state.cardsCount}
                   />
                 </div>
+                {!!this.state.cardsCountError && (
+                  <p className="help is-danger">{this.state.cardsCountError}</p>
+                )}
               </div>
               <div className="field">
                 <label className="label">Who's dealing?</label>
