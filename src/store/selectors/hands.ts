@@ -3,7 +3,7 @@ import { IRoundState, IStore, TimedEntityStatus } from "../../types/store";
 export function getClosedHands(state: IStore) {
   return state.hands
     .filter(({ status }) => status === TimedEntityStatus.CLOSED)
-    .sort((a, b) => b.startDate - a.startDate);
+    .sort((a, b) => a.startDate - b.startDate);
 }
 
 export function getCurrentHand(state: IStore) {
@@ -39,8 +39,8 @@ export function getNextHandDealerId(state: IStore) {
     return "";
   }
 
-  const closedHands = getClosedHands(state);
-  const previousHand = closedHands[closedHands.length - 2];
+  const closedHands = getClosedHands(state).reverse();
+  const previousHand = closedHands[0];
 
   if (previousHand) {
     const previousPlayerIndex = state.game.players.findIndex(
@@ -57,8 +57,8 @@ export function getNextHandDealerId(state: IStore) {
 }
 
 export function getNextHandCardsCount(state: IStore) {
-  const closedHands = getClosedHands(state);
-  const previousHand = closedHands[closedHands.length - 2];
+  const closedHands = getClosedHands(state).reverse();
+  const previousHand = closedHands[0];
 
   return previousHand ? previousHand.cardsCount : 1;
 }
