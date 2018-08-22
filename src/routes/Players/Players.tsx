@@ -57,7 +57,7 @@ class Players extends React.Component<IPlayersProps, IPlayersState> {
             <div className="control">
               <button className="button" onClick={this.addField}>
                 <span className="icon">
-                  <i className="fas fa-plus" />
+                  <i className="fas fa-user-plus" />
                 </span>
                 <span>Add player</span>
               </button>
@@ -83,11 +83,11 @@ class Players extends React.Component<IPlayersProps, IPlayersState> {
     );
   }
 
-  private addField() {
+  private addField = () => {
     this.setState({ fields: [...this.state.fields, ""] });
   }
 
-  private removeField(index: number) {
+  private removeField = (index: number) => {
     this.setState({
       fields: [
         ...this.state.fields.slice(0, index),
@@ -100,7 +100,7 @@ class Players extends React.Component<IPlayersProps, IPlayersState> {
     this.props.startGame(this.state.fields);
   };
 
-  private onFieldChange(index: number, value: string) {
+  private onFieldChange = (index: number, value: string) => {
     this.setState({
       fields: [
         ...this.state.fields.slice(0, index),
