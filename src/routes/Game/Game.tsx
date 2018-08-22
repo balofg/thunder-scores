@@ -1,5 +1,5 @@
-import { History } from "history";
 import * as React from "react";
+import { Redirect } from "react-router-dom";
 
 import { abortHand, dealHand, endHand } from "../../store/actions/hand";
 import { IPlayerScore } from "../../store/selectors/scores";
@@ -13,7 +13,6 @@ interface IGameProps {
   nextDealerId: string;
   nextCardsCount: number;
   scores: IPlayerScore[];
-  history: History;
   abortHand: typeof abortHand;
   dealHand: typeof dealHand;
   endHand: typeof endHand;
@@ -22,13 +21,13 @@ interface IGameProps {
 class Game extends React.Component<IGameProps> {
   constructor(props: IGameProps) {
     super(props);
-
-    if (props.game === null) {
-      props.history.push("/players");
-    }
   }
 
   public render() {
+    if (!this.props.game) {
+      return <Redirect to="players" />
+    }
+
     return (
       <React.Fragment>
         <HandBar
