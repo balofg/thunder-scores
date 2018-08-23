@@ -3,18 +3,18 @@ import * as moment from "moment";
 import { IGameState, TimedEntityStatus } from "../../types/store";
 import { GameAction } from "../actions/game";
 
-const mockGame: IGameState = {
-  id: "mock",
-  players: [
-    { id: "a", name: "Player 1" },
-    { id: "b", name: "Player 2" },
-    { id: "c", name: "Player 3" }
-  ],
-  startDate: moment().valueOf(),
-  status: TimedEntityStatus.OPEN
-};
+// const mockGame: IGameState = {
+//   id: "mock",
+//   players: [
+//     { id: "a", name: "Player 1" },
+//     { id: "b", name: "Player 2" },
+//     { id: "c", name: "Player 3" }
+//   ],
+//   startDate: moment().valueOf(),
+//   status: TimedEntityStatus.OPEN
+// };
 
-const initialState: IGameState = mockGame;
+const initialState: IGameState = null;
 
 export default function gameReducer(
   state: IGameState = initialState,

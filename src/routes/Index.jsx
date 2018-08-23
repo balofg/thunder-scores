@@ -7,12 +7,12 @@ const IndexRoute = () => (
       <div className="container">
         <h1 className="title">Thunder Scores</h1>
         <h2 className="subtitle">Automatic score-keeping tool</h2>
-        <button className="button is-primary">
+        <a className="button is-primary" href="#/players">
           <span className="icon">
             <i className="fas fa-bolt" />
           </span>
           <span>New game</span>
-        </button>
+        </a>
       </div>
     </div>
   </div>
