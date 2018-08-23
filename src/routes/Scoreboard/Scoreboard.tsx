@@ -30,7 +30,18 @@ const Scoreboard = ({ game, handsScores }: IScoreboardProps) =>
             </span>
             <span>Back to the game</span>
           </a>
-        ) : null}
+        ) : (
+          <a
+            className="button is-primary"
+            href="#/players"
+            style={{ marginBottom: "1.5rem" }}
+          >
+            <span className="icon">
+              <i className="fas fa-bolt" />
+            </span>
+            <span>New game</span>
+          </a>
+        )}
 
         <table className="table is-fullwidth">
           <thead>
@@ -51,7 +62,7 @@ const Scoreboard = ({ game, handsScores }: IScoreboardProps) =>
                   colSpan={1 + game.players.length}
                   className="has-text-centered"
                 >
-                  <em>You haven't started playing yet</em>
+                  <em>There's nothing here.</em>
                 </td>
               </tr>
             ) : null}
