@@ -81,7 +81,7 @@ class Game extends React.Component<IGameComponentProps, IGameComponentState> {
 
         <div className="section">
           <div className="container">
-            <div className="columns">
+            <div className="columns is-multiline is-centered">
               {this.state.playersOrder.map(index => {
                 const player = this.props.game!!.players[index];
                 return (

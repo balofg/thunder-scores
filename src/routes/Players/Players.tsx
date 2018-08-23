@@ -55,8 +55,8 @@ class Players extends React.Component<IPlayersProps, IPlayersState> {
             </div>
           ))}
 
-          <div className="field is-grouped">
-            <div className="control">
+          <div className="level">
+            <div className="level-item">
               <button className="button" onClick={this.addField}>
                 <span className="icon">
                   <i className="fas fa-user-plus" />
@@ -64,7 +64,7 @@ class Players extends React.Component<IPlayersProps, IPlayersState> {
                 <span>Add player</span>
               </button>
             </div>
-            <div className="control">
+            <div className="level-item">
               <button
                 className="button is-primary"
                 onClick={this.submit}
@@ -87,7 +87,7 @@ class Players extends React.Component<IPlayersProps, IPlayersState> {
 
   private addField = () => {
     this.setState({ fields: [...this.state.fields, ""] });
-  }
+  };
 
   private removeField = (index: number) => {
     this.setState({
@@ -96,7 +96,7 @@ class Players extends React.Component<IPlayersProps, IPlayersState> {
         ...this.state.fields.slice(index + 1)
       ]
     });
-  }
+  };
 
   private submit = () => {
     this.props.startGame(this.state.fields);
@@ -111,7 +111,7 @@ class Players extends React.Component<IPlayersProps, IPlayersState> {
         ...this.state.fields.slice(index + 1)
       ]
     });
-  }
+  };
 }
 
 export default Players;
