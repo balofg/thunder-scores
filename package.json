@@ -1,35 +1,37 @@
 {
   "name": "thunder-scores",
-  "version": "0.4.0-alpha",
-  "author": "Barney <balofg@live.com>",
+  "version": "0.5.0-beta",
   "private": true,
   "dependencies": {
-    "@fortawesome/fontawesome": "^1.1.5",
-    "@fortawesome/fontawesome-free-solid": "^5.0.10",
+    "@fortawesome/fontawesome-free": "^5.2.0",
     "bulma": "^0.7.1",
     "history": "^4.7.2",
-    "history-prop-types": "^2.5.2",
-    "moment": "^2.22.1",
-    "prop-types": "^15.6.1",
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2",
+    "moment": "^2.22.2",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",
-    "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.4",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts-ts": "2.17.0",
     "redux": "^4.0.0",
-    "uuid": "^3.2.1"
+    "uniqid": "^5.0.3"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.11.0",
-    "eslint-plugin-react": "^7.7.0"
+    "@types/history": "^4.7.0",
+    "@types/jest": "^23.3.1",
+    "@types/node": "^10.7.1",
+    "@types/react": "^16.4.11",
+    "@types/react-dom": "^16.0.7",
+    "@types/react-redux": "^6.0.6",
+    "@types/react-router": "^4.0.30",
+    "@types/react-router-dom": "^4.3.0",
+    "@types/uniqid": "^4.1.2",
+    "typescript": "^3.0.1"
   }
 }

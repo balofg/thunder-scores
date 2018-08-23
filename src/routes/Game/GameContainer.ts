@@ -1,0 +1,47 @@
+import { connect } from "react-redux";
+
+import { endGame } from "../../store/actions/game";
+import {
+  abortHand,
+  dealHand,
+  endHand,
+  endRound,
+  placeBet,
+  startRound
+} from "../../store/actions/hand";
+import {
+  getCurrentHand,
+  getCurrentRound,
+  getNextHandCardsCount,
+  getNextHandDealerId,
+  isDonePlaying
+} from "../../store/selectors/hands";
+import { getPlayersCumulativeScores } from "../../store/selectors/scores";
+import { IStore } from "../../types/store";
+
+import Game from "./Game";
+
+const mapStateToProps = (state: IStore) => ({
+  currentHand: getCurrentHand(state),
+  currentRound: getCurrentRound(state),
+  game: state.game,
+  isDonePlaying: isDonePlaying(state),
+  nextCardsCount: getNextHandCardsCount(state),
+  nextDealerId: getNextHandDealerId(state),
+  scores: getPlayersCumulativeScores(state)
+});
+
+const mapDispatchToProps = {
+  abortHand,
+  dealHand,
+  endGame,
+  endHand,
+  endRound,
+  placeBet,
+  startRound,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Game);

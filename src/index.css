@@ -1,14 +1,20 @@
-.app-version {
-  position: fixed;
-  bottom: 0;
-  opacity: 0;
-  padding: 7px;
-  background: white;
-  color: black;
-  font-size: 10px;
-  transition: opacity .5s;
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
 }
 
-.app-version:hover {
+#version {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  font-size: .8rem;
+  opacity: 0;
+  padding: .3rem;
+  transition: opacity .2s;
+  background: white;
+}
+
+#version:hover {
   opacity: .5;
 }
