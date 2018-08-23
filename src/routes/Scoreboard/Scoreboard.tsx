@@ -75,6 +75,13 @@ const Scoreboard = ({ game, handsScores }: IScoreboardProps) =>
               </tr>
             ))}
           </tbody>
+
+          <tfoot>
+            <td />
+            {handsScores[handsScores.length - 1].scores.map(playerScore => (
+              <td className="has-text-centered is-size-4" key={playerScore.player.id}>{playerScore.score}</td>
+            ))}
+          </tfoot>
         </table>
       </div>
     </div>
