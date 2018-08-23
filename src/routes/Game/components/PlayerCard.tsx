@@ -24,6 +24,7 @@ interface IPlayerCardProps {
 interface IPlayerCardState {
   betValue?: number;
   betValueError?: string;
+  touched: boolean;
 }
 
 const betStatusBackgrounds = {
@@ -46,8 +47,13 @@ class PlayerCard extends React.Component<IPlayerCardProps, IPlayerCardState> {
     super(props);
 
     this.state = {
-      betValue: undefined
+      betValue: undefined,
+      touched: false
     };
+  }
+
+  public componentWillReceiveProps(nextProps: IPlayerCardProps) {
+    this.validateBetValue(nextProps);
   }
 
   public render() {
@@ -153,34 +159,48 @@ class PlayerCard extends React.Component<IPlayerCardProps, IPlayerCardState> {
     );
   }
 
-  private onBetValueChange = (value?: number) => {
+  private validateBetValue = (props: IPlayerCardProps) => {
+    const { betValue: value, touched } = this.state;
+
+    if (!touched) {
+      return;
+    }
+
     let betValueError;
 
     if (value === undefined) {
       betValueError = "What, is he just watching?";
-    } else if (this.props.game && this.props.currentHand) {
-      if (value > this.props.currentHand.cardsCount) {
+    } else if (props.game && props.currentHand) {
+      if (value > props.currentHand.cardsCount) {
         betValueError =
           "You're not supposed to take extra cards from the deck.";
       } else {
         const isLastBet =
-          this.props.currentHand.bets.length ===
-          this.props.game.players.length - 1;
+          props.currentHand.bets.filter(
+            ({ playerId }) => playerId !== props.player.id
+          ).length ===
+          props.game.players.length - 1;
 
         if (isLastBet) {
-          const betSum = this.props.currentHand.bets.reduce(
+          const betSum = props.currentHand.bets.reduce(
             (sum, bet) => bet.value + sum,
             0
           );
 
-          if (betSum + value === this.props.currentHand.cardsCount) {
+          if (betSum + value === props.currentHand.cardsCount) {
             betValueError = "This way everybody wins.";
           }
         }
       }
     }
 
-    this.setState({ betValue: value, betValueError });
+    this.setState({ betValueError });
+  };
+
+  private onBetValueChange = (value?: number) => {
+    this.setState({ betValue: value, touched: true }, () =>
+      this.validateBetValue(this.props)
+    );
   };
 
   private placeBet = () => {
@@ -191,7 +211,7 @@ class PlayerCard extends React.Component<IPlayerCardProps, IPlayerCardState> {
         this.state.betValue!!
       );
 
-      this.setState({ betValue: undefined });
+      this.setState({ betValue: undefined, touched: false });
     }
   };
 

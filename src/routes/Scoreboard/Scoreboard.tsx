@@ -34,12 +34,14 @@ const Scoreboard = ({ game, handsScores }: IScoreboardProps) =>
 
         <table className="table is-fullwidth">
           <thead>
-            <th className="has-text-centered">#</th>
-            {game.players.map(player => (
-              <th key={player.id} className="has-text-centered">
-                {player.name}
-              </th>
-            ))}
+            <tr>
+              <th className="has-text-centered">#</th>
+              {game.players.map(player => (
+                <th key={player.id} className="has-text-centered">
+                  {player.name}
+                </th>
+              ))}
+            </tr>
           </thead>
 
           <tbody>
@@ -86,15 +88,17 @@ const Scoreboard = ({ game, handsScores }: IScoreboardProps) =>
 
           {handsScores.length ? (
             <tfoot>
-              <td />
-              {handsScores[handsScores.length - 1].scores.map(playerScore => (
-                <td
-                  className="has-text-centered is-size-4"
-                  key={playerScore.player.id}
-                >
-                  {playerScore.score}
-                </td>
-              ))}
+              <tr>
+                <td />
+                {handsScores[handsScores.length - 1].scores.map(playerScore => (
+                  <td
+                    className="has-text-centered is-size-4"
+                    key={playerScore.player.id}
+                  >
+                    {playerScore.score}
+                  </td>
+                ))}
+              </tr>
             </tfoot>
           ) : null}
         </table>
