@@ -3,3 +3,18 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+#version {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  font-size: .8rem;
+  opacity: 0;
+  padding: .3rem;
+  transition: opacity .2s;
+  background: white;
+}
+
+#version:hover {
+  opacity: .5;
+}

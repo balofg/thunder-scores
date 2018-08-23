@@ -8,13 +8,21 @@ import Players from "./routes/Players";
 import Scoreboard from "./routes/Scoreboard";
 
 const App = () => (
-  <Switch>
-    <Route path="/" exact component={Index} />
-    <Route path="/about" component={About} />
-    <Route path="/players" component={Players} />
-    <Route path="/game" component={Game} />
-    <Route path="/scoreboard" component={Scoreboard} />
-  </Switch>
+  <div>  
+    <Switch>
+      <Route path="/" exact component={Index} />
+      <Route path="/about" component={About} />
+      <Route path="/players" component={Players} />
+      <Route path="/game" component={Game} />
+      <Route path="/scoreboard" component={Scoreboard} />
+    </Switch>
+    <div id="version">
+      <span className="icon">
+        <i className="fas fa-bolt" />
+      </span>
+      0.5.0-beta
+    </div>
+  </div>
 );
 
 export default App;
