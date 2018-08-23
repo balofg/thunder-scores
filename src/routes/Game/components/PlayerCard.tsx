@@ -26,6 +26,21 @@ interface IPlayerCardState {
   betValueError?: string;
 }
 
+const betStatusBackgrounds = {
+  [BetStatus.WON]: "success",
+  [BetStatus.LOST]: "danger"
+};
+
+const betStatusIcons = {
+  [BetStatus.WON]: "check",
+  [BetStatus.LOST]: "times"
+};
+
+const betStatusCopy = {
+  [BetStatus.WON]: "WON",
+  [BetStatus.LOST]: "LOST"
+};
+
 class PlayerCard extends React.Component<IPlayerCardProps, IPlayerCardState> {
   constructor(props: IPlayerCardProps) {
     super(props);
@@ -53,7 +68,7 @@ class PlayerCard extends React.Component<IPlayerCardProps, IPlayerCardState> {
     const wins = currentHand
       ? currentHand.rounds.filter(({ winnerId }) => winnerId === player.id)
           .length
-      : 0;
+      : undefined;
 
     const canPlay = currentHand
       ? currentHand.bets.length === game.players.length
@@ -99,8 +114,7 @@ class PlayerCard extends React.Component<IPlayerCardProps, IPlayerCardState> {
 
             {bet ? (
               <p className="is-size-2 has-text-centered">
-                {canPlay || bet.status !== BetStatus.OPEN ? wins : "--"} /{" "}
-                {bet.value}
+                {wins !== undefined ? wins : "--"} / {bet.value}
               </p>
             ) : null}
 
@@ -124,11 +138,14 @@ class PlayerCard extends React.Component<IPlayerCardProps, IPlayerCardState> {
         {bet && bet.status !== BetStatus.OPEN ? (
           <div
             className={`card-footer has-text-white has-background-${
-              bet.status === BetStatus.WON ? "success" : "danger"
+              betStatusBackgrounds[bet.status]
             }`}
           >
             <div className="card-footer-item">
-              {bet.status === BetStatus.WON ? "WON" : "LOST"}
+              <span className="icon">
+                <i className={`fas fa-${betStatusIcons[bet.status]}`} />
+              </span>
+              {betStatusCopy[bet.status]}
             </div>
           </div>
         ) : null}
