@@ -95,6 +95,7 @@ class PlayerCard extends React.Component<IPlayerCardProps, IPlayerCardState> {
                 <div className="control is-expanded">
                   <NumberInput
                     onChange={this.onBetValueChange}
+                    onEnter={this.onBetValueEnter}
                     placeholder="Bet value"
                     isDanger={!!this.state.betValueError}
                     value={this.state.betValue}
@@ -202,6 +203,12 @@ class PlayerCard extends React.Component<IPlayerCardProps, IPlayerCardState> {
       this.validateBetValue(this.props)
     );
   };
+
+  private onBetValueEnter = () => {
+    if (this.state.betValue !== undefined && !this.state.betValueError) {
+      this.placeBet();
+    }
+  }
 
   private placeBet = () => {
     if (this.props.currentHand) {

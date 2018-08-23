@@ -19,13 +19,11 @@ export function startGame(playerNames: string[]): IGameStartAction {
 }
 
 export interface IGameEndAction {
-  gameId: string;
   type: "GAME_END";
 }
 
-export function endGame(gameId: string): IGameEndAction {
+export function endGame(): IGameEndAction {
   return {
-    gameId,
     type: "GAME_END"
   };
 }

@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
 
+import { endGame } from "../../store/actions/game";
 import {
   abortHand,
   dealHand,
@@ -33,6 +34,7 @@ const mapStateToProps = (state: IStore) => ({
 const mapDispatchToProps = {
   abortHand,
   dealHand,
+  endGame,
   endHand,
   endRound,
   placeBet,

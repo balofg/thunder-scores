@@ -46,12 +46,14 @@ const Scoreboard = ({ game, handsScores }: IScoreboardProps) =>
 
           <tbody>
             {!handsScores.length ? (
-              <td
-                colSpan={1 + game.players.length}
-                className="has-text-centered"
-              >
-                <em>You haven't started playing yet</em>
-              </td>
+              <tr>
+                <td
+                  colSpan={1 + game.players.length}
+                  className="has-text-centered"
+                >
+                  <em>You haven't started playing yet</em>
+                </td>
+              </tr>
             ) : null}
             {handsScores.map(handScore => (
               <tr key={handScore.id}>

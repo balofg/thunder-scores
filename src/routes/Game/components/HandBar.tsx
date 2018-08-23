@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import NumberInput from "../../../components/NumberInput";
+import { endGame } from "../../../store/actions/game";
 import { abortHand, dealHand, endHand } from "../../../store/actions/hand";
 import { IGameState, IHandState } from "../../../types/store";
 
@@ -12,6 +13,7 @@ interface IHandBarProps {
   nextCardsCount: number;
   abortHand: typeof abortHand;
   dealHand: typeof dealHand;
+  endGame: typeof endGame;
   endHand: typeof endHand;
 }
 
@@ -141,19 +143,42 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
               </div>
             </div>
           </div>
-          <div className="field is-grouped">
-            <ScoreboardButton />
-            <div className="control">
-              <button
-                className="button is-primary"
-                disabled={!!this.state.cardsCountError}
-                onClick={this.dealHand}
-              >
-                <span className="icon">
-                  <i className="fas fa-bolt" />
-                </span>
-                <span>Deal hand</span>
-              </button>
+          <div className="level">
+            <div className="level-left">
+              <div className="level-item">
+                <div className="field is-grouped">
+                  <ScoreboardButton />
+                  <div className="control">
+                    <button
+                      className="button is-primary"
+                      disabled={!!this.state.cardsCountError}
+                      onClick={this.dealHand}
+                    >
+                      <span className="icon">
+                        <i className="fas fa-bolt" />
+                      </span>
+                      <span>Deal hand</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="level-right">
+              <div className="level-item">
+                <div className="field">
+                  <div className="control">
+                    <button
+                      className="button is-danger is-outlined"
+                      onClick={this.endGame}
+                    >
+                      <span className="icon">
+                        <i className="fas fa-check" />
+                      </span>
+                      <span>End game</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -177,6 +202,12 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
   private abortHand = () => {
     if (this.props.currentHand) {
       this.props.abortHand(this.props.currentHand.id);
+    }
+  };
+
+  private endGame = () => {
+    if (this.props.game) {
+      this.props.endGame();
     }
   };
 
