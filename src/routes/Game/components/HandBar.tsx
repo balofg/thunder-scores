@@ -80,9 +80,11 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
               {delta > 0 ? "+" : ""}
               {delta}
             </h1>
-            <div className="field is-grouped">
-              <ScoreboardButton />
-              <div className="control">
+            <div className="level">
+              <div className="level-item">
+                <ScoreboardButton />
+              </div>
+              <div className="level-item">
                 <button className="button" onClick={this.abortHand}>
                   <span className="icon">
                     <i className="fas fa-undo" />
@@ -90,7 +92,7 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
                   <span>Undo hand</span>
                 </button>
               </div>
-              <div className="control">
+              <div className="level-item">
                 <button
                   className="button is-primary"
                   disabled={!this.props.isDonePlaying}
@@ -144,40 +146,32 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
             </div>
           </div>
           <div className="level">
-            <div className="level-left">
-              <div className="level-item">
-                <div className="field is-grouped">
-                  <ScoreboardButton />
-                  <div className="control">
-                    <button
-                      className="button is-primary"
-                      disabled={!!this.state.cardsCountError}
-                      onClick={this.dealHand}
-                    >
-                      <span className="icon">
-                        <i className="fas fa-bolt" />
-                      </span>
-                      <span>Deal hand</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
+            <div className="level-item">
+              <ScoreboardButton />
             </div>
-            <div className="level-right">
-              <div className="level-item">
-                <div className="field">
-                  <div className="control">
-                    <button
-                      className="button is-danger is-outlined"
-                      onClick={this.endGame}
-                    >
-                      <span className="icon">
-                        <i className="fas fa-check" />
-                      </span>
-                      <span>End game</span>
-                    </button>
-                  </div>
-                </div>
+            <div className="level-item">
+              <button
+                className="button is-danger is-outlined"
+                onClick={this.endGame}
+              >
+                <span className="icon">
+                  <i className="fas fa-check" />
+                </span>
+                <span>End game</span>
+              </button>
+            </div>
+            <div className="level-item">
+              <div className="control">
+                <button
+                  className="button is-primary"
+                  disabled={!!this.state.cardsCountError}
+                  onClick={this.dealHand}
+                >
+                  <span className="icon">
+                    <i className="fas fa-bolt" />
+                  </span>
+                  <span>Deal hand</span>
+                </button>
               </div>
             </div>
           </div>
