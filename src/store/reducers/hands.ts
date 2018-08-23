@@ -1,5 +1,3 @@
-import * as moment from "moment";
-
 import { BetStatus, IHandState, TimedEntityStatus } from "../../types/store";
 import { GameAction } from "../actions/game";
 import { HandAction } from "../actions/hand";
@@ -32,7 +30,7 @@ export default function handsReducer(
           dealerId: action.dealerId,
           id: action.id,
           rounds: [],
-          startDate: moment().valueOf(),
+          startDate: Date.now(),
           status: TimedEntityStatus.OPEN
         }
       ];
@@ -41,7 +39,7 @@ export default function handsReducer(
       if (handIndex > -1) {
         return replaceHandAtIndex(state, handIndex, {
           ...state[handIndex],
-          endDate: moment().valueOf(),
+          endDate: Date.now(),
           status: TimedEntityStatus.ABORTED
         });
       }
@@ -53,7 +51,7 @@ export default function handsReducer(
       if (handIndex > -1) {
         return replaceHandAtIndex(state, handIndex, {
           ...state[handIndex],
-          endDate: moment().valueOf(),
+          endDate: Date.now(),
           status: TimedEntityStatus.CLOSED
         });
       }
@@ -71,7 +69,7 @@ export default function handsReducer(
               id: action.id,
               playerId: action.playerId,
               status: BetStatus.OPEN,
-              timestamp: moment().valueOf(),
+              timestamp: Date.now(),
               value: action.value
             }
           ]
@@ -89,7 +87,7 @@ export default function handsReducer(
             ...state[handIndex].rounds,
             {
               id: action.id,
-              startDate: moment().valueOf(),
+              startDate: Date.now(),
               status: TimedEntityStatus.OPEN
             }
           ]
@@ -139,7 +137,7 @@ export default function handsReducer(
               ...hand.rounds.slice(0, roundIndex),
               {
                 ...round,
-                endDate: moment().valueOf(),
+                endDate: Date.now(),
                 status: TimedEntityStatus.CLOSED,
                 winnerId: action.winnerId
               },

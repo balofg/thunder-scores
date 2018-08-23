@@ -1,5 +1,3 @@
-import * as moment from "moment";
-
 import { IGameState, TimedEntityStatus } from "../../types/store";
 import { GameAction } from "../actions/game";
 
@@ -10,7 +8,7 @@ import { GameAction } from "../actions/game";
 //     { id: "b", name: "Player 2" },
 //     { id: "c", name: "Player 3" }
 //   ],
-//   startDate: moment().valueOf(),
+//   startDate: Date.now(),
 //   status: TimedEntityStatus.OPEN
 // };
 
@@ -25,7 +23,7 @@ export default function gameReducer(
       return {
         id: action.id,
         players: action.players,
-        startDate: moment().valueOf(),
+        startDate: Date.now(),
         status: TimedEntityStatus.OPEN
       };
       break;
@@ -36,7 +34,7 @@ export default function gameReducer(
 
       return {
         ...state,
-        endDate: moment().valueOf(),
+        endDate: Date.now(),
         status: TimedEntityStatus.CLOSED
       };
     default:
