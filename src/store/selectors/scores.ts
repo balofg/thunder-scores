@@ -20,17 +20,18 @@ export interface IPlayerScore {
   score: number;
 }
 
+export type IHandPlayerScore = IPlayerScore & {
+  player: IPlayerState & {
+    isDealer: boolean;
+  };
+  betStatus: BetStatus;
+}
+
 export interface IHandScores {
   cardsCount: number;
   endDate: number;
   id: string;
-  scores: Array<
-    IPlayerScore & {
-      player: IPlayerState & {
-        isDealer: boolean;
-      };
-    }
-  >;
+  scores: IHandPlayerScore[];
   startDate: number;
 }
 
@@ -65,7 +66,7 @@ export function getPlayersCumulativeScores(state: IStore): IPlayerScore[] {
   }, []);
 }
 
-export function getHandsScores(state: IStore) {
+export function getHandsScores(state: IStore): IHandScores[] {
   if (state.game === null) {
     return [];
   }
@@ -75,7 +76,7 @@ export function getHandsScores(state: IStore) {
   return closedHands.reduce((result: IHandScores[], hand, index) => {
     const previousHand = result[index - 1];
 
-    const playersScores: IPlayerScore[] = state.game!!.players.reduce(
+    const playersScores: IHandPlayerScore[] = state.game!!.players.reduce(
       (scores, player) => {
         const playerBet =
           hand.bets.find(({ playerId }) => playerId === player.id) || mockBet;
@@ -88,6 +89,7 @@ export function getHandsScores(state: IStore) {
         return [
           ...scores,
           {
+            betStatus: playerBet.status,
             player: {
               ...player,
               isDealer: hand.dealerId === player.id
@@ -106,7 +108,7 @@ export function getHandsScores(state: IStore) {
       ...result,
       {
         cardsCount: hand.cardsCount,
-        endDate: hand.endDate,
+        endDate: hand.endDate!!,
         id: hand.id,
         scores: playersScores,
         startDate: hand.startDate
