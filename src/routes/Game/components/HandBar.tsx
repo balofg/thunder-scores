@@ -21,6 +21,18 @@ interface IHandBarState {
   dealerId: string;
 }
 
+const ScoreboardButton = () => (
+  <div className="control">
+    <a href="#/scoreboard" className="button">
+      <span className="icon">
+        <i className="fas fa-table" />
+      </span>
+
+      <span>Scoreboard</span>
+    </a>
+  </div>
+);
+
 class HandBar extends React.Component<IHandBarProps, IHandBarState> {
   constructor(props: IHandBarProps) {
     super(props);
@@ -67,6 +79,7 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
               {delta}
             </h1>
             <div className="field is-grouped">
+              <ScoreboardButton />
               <div className="control">
                 <button className="button" onClick={this.abortHand}>
                   <span className="icon">
@@ -128,7 +141,8 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
               </div>
             </div>
           </div>
-          <div className="field">
+          <div className="field is-grouped">
+            <ScoreboardButton />
             <div className="control">
               <button
                 className="button is-primary"

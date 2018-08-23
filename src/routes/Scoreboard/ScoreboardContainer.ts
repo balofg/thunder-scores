@@ -5,7 +5,8 @@ import { IStore } from "../../types/store";
 import Scoreboard from "./Scoreboard";
 
 const mapStateToProps = (state: IStore) => ({
-  scores: getHandsScores(state)
+  game: state.game,
+  handsScores: getHandsScores(state)
 });
 
 export default connect(mapStateToProps)(Scoreboard);

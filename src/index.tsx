@@ -14,9 +14,17 @@ import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import reducers from "./store/reducers";
 
+import preloadedState from "./state";
+
 import "./index.css";
 
-const store = createStore(reducers);
+const store = createStore(
+  reducers,
+  preloadedState,
+  // tslint:disable
+  window["__REDUX_DEVTOOLS_EXTENSION__"] &&
+    window["__REDUX_DEVTOOLS_EXTENSION__"]()
+);
 
 ReactDOM.render(
   <Provider store={store}>

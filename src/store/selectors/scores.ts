@@ -24,7 +24,7 @@ export type IHandPlayerScore = IPlayerScore & {
   player: IPlayerState & {
     isDealer: boolean;
   };
-  betStatus: BetStatus;
+  bet: IBetState;
 }
 
 export interface IHandScores {
@@ -89,7 +89,7 @@ export function getHandsScores(state: IStore): IHandScores[] {
         return [
           ...scores,
           {
-            betStatus: playerBet.status,
+            bet: playerBet,
             player: {
               ...player,
               isDealer: hand.dealerId === player.id
