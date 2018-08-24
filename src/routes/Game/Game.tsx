@@ -11,7 +11,12 @@ import {
   startRound
 } from "../../store/actions/hand";
 import { IPlayerScore } from "../../store/selectors/scores";
-import { IGameState, IHandState, IRoundState, TimedEntityStatus } from "../../types/store";
+import {
+  IGameState,
+  IHandState,
+  IRoundState,
+  TimedEntityStatus
+} from "../../types/store";
 
 import HandBar from "./components/HandBar";
 import PlayerCard from "./components/PlayerCard";
@@ -66,29 +71,26 @@ class Game extends React.Component<IGameComponentProps, IGameComponentState> {
     }
 
     return (
-      <React.Fragment>
-        <HandBar
-          currentHand={this.props.currentHand}
-          game={this.props.game}
-          isDonePlaying={this.props.isDonePlaying}
-          nextDealerId={this.props.nextDealerId}
-          nextCardsCount={this.props.nextCardsCount}
-          abortHand={this.props.abortHand}
-          dealHand={this.props.dealHand}
-          endHand={this.props.endHand}
-          endGame={this.props.endGame}
-        />
+      <div className="section">
+        <div className="container">
+          <HandBar
+            currentHand={this.props.currentHand}
+            game={this.props.game}
+            isDonePlaying={this.props.isDonePlaying}
+            nextDealerId={this.props.nextDealerId}
+            nextCardsCount={this.props.nextCardsCount}
+            abortHand={this.props.abortHand}
+            dealHand={this.props.dealHand}
+            endHand={this.props.endHand}
+            endGame={this.props.endGame}
+          />
 
-        <div className="section">
-          <div className="container">
+          <div className="content">
             <div className="columns is-multiline is-centered">
               {this.state.playersOrder.map(index => {
                 const player = this.props.game!!.players[index];
                 return (
-                  <div
-                    className="column is-one-third"
-                    key={player.id}
-                  >
+                  <div className="column is-one-third" key={player.id}>
                     <PlayerCard
                       player={player}
                       scores={this.props.scores}
@@ -104,7 +106,7 @@ class Game extends React.Component<IGameComponentProps, IGameComponentState> {
             </div>
           </div>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 
