@@ -1,9 +1,11 @@
 import { History } from "history";
 import * as React from "react";
 
+import { startGameRequest } from "../../store/actions/game";
+
 interface IPlayersProps {
   history: History;
-  startGame: (playerNames: string[]) => void;
+  startGame: typeof startGameRequest;
 }
 
 interface IPlayersState {

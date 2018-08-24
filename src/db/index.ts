@@ -28,4 +28,4 @@ class ThunderDB extends Dexie {
   }
 }
 
-export default ThunderDB;
+export default new ThunderDB();

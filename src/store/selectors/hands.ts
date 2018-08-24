@@ -35,7 +35,7 @@ export function isDonePlaying(state: IStore): boolean {
 }
 
 export function getNextHandDealerId(state: IStore) {
-  if (state.game === null) {
+  if (state.game.data === undefined) {
     return "";
   }
 
@@ -43,17 +43,17 @@ export function getNextHandDealerId(state: IStore) {
   const previousHand = closedHands[closedHands.length - 1];
 
   if (previousHand) {
-    const previousPlayerIndex = state.game.players.findIndex(
+    const previousPlayerIndex = state.game.data.players.findIndex(
       ({ id }) => id === previousHand.dealerId
     );
     if (previousPlayerIndex > -1) {
-      return state.game.players[
-        (previousPlayerIndex + 1) % state.game.players.length
+      return state.game.data.players[
+        (previousPlayerIndex + 1) % state.game.data.players.length
       ].id;
     }
   }
 
-  return state.game.players[0].id;
+  return state.game.data.players[0].id;
 }
 
 export function getNextHandCardsCount(state: IStore) {

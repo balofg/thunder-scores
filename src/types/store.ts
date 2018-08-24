@@ -11,6 +11,12 @@ export enum BetStatus {
   LOST
 }
 
+export interface ILoadableResource<T> {
+  loading: boolean;
+  error?: Error;
+  data?: T;
+} 
+
 interface ITimedEntity {
   id: string;
   startDate: number;
@@ -18,11 +24,9 @@ interface ITimedEntity {
   status: TimedEntityStatus;
 }
 
-export type IGameState =
-  | ITimedEntity & {
-      players: IPlayerState[];
-    }
-  | null;
+export interface IGameState extends ITimedEntity {
+  players: IPlayerState[];
+};
 
 export interface IPlayerState {
   id: string;
@@ -54,6 +58,6 @@ export interface IApplicationState {
 }
 
 export interface IStore {
-  game: IGameState;
+  game: ILoadableResource<IGameState>;
   hands: IHandState[];
 }

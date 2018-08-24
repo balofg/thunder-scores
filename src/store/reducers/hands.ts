@@ -19,7 +19,7 @@ export default function handsReducer(
   action: HandAction | GameAction
 ): IHandState[] {
   switch (action.type) {
-    case "GAME_START":
+    case "GAME_START_SUCCESS":
       return initialState;
     case "HAND_DEAL":
       return [

@@ -13,15 +13,17 @@ import { IPlayerScore } from "../../store/selectors/scores";
 import {
   IGameState,
   IHandState,
+  ILoadableResource,
   IRoundState,
   TimedEntityStatus
 } from "../../types/store";
 
+import Loader from "../../components/Loader";
 import HandBar from "./components/HandBar";
 import PlayerCard from "./components/PlayerCard";
 
 interface IGameComponentProps {
-  game: IGameState;
+  game: ILoadableResource<IGameState>;
   currentHand?: IHandState;
   currentRound?: IRoundState;
   isDonePlaying: boolean;
@@ -45,8 +47,8 @@ class Game extends React.Component<IGameComponentProps, IGameComponentState> {
     super(props);
 
     this.state = {
-      playersOrder: props.game
-        ? props.game.players.map((player, index) => index)
+      playersOrder: props.game.data
+        ? props.game.data.players.map((player, index) => index)
         : []
     };
   }
@@ -60,51 +62,53 @@ class Game extends React.Component<IGameComponentProps, IGameComponentState> {
   }
 
   public render() {
-    if (!this.props.game) {
-      return <Redirect to="players" />;
-    }
+    if (this.props.game.loading) {
+      return <Loader />;
+    } else if (this.props.game.data) {
+      if (this.props.game.data.status === TimedEntityStatus.CLOSED) {
+        return <Redirect to="scoreboard" />;
+      }
 
-    if (this.props.game.status === TimedEntityStatus.CLOSED) {
-      return <Redirect to="scoreboard" />;
-    }
+      return (
+        <div className="section">
+          <div className="container">
+            <HandBar
+              currentHand={this.props.currentHand}
+              game={this.props.game.data}
+              isDonePlaying={this.props.isDonePlaying}
+              nextDealerId={this.props.nextDealerId}
+              nextCardsCount={this.props.nextCardsCount}
+              abortHand={this.props.abortHand}
+              dealHand={this.props.dealHand}
+              endHand={this.props.endHand}
+            />
 
-    return (
-      <div className="section">
-        <div className="container">
-          <HandBar
-            currentHand={this.props.currentHand}
-            game={this.props.game}
-            isDonePlaying={this.props.isDonePlaying}
-            nextDealerId={this.props.nextDealerId}
-            nextCardsCount={this.props.nextCardsCount}
-            abortHand={this.props.abortHand}
-            dealHand={this.props.dealHand}
-            endHand={this.props.endHand}
-          />
-
-          <div className="content">
-            <div className="columns is-multiline is-centered">
-              {this.state.playersOrder.map(index => {
-                const player = this.props.game!!.players[index];
-                return (
-                  <div className="column is-one-third" key={player.id}>
-                    <PlayerCard
-                      player={player}
-                      scores={this.props.scores}
-                      game={this.props.game}
-                      currentHand={this.props.currentHand}
-                      currentRound={this.props.currentRound}
-                      endRound={this.props.endRound}
-                      placeBet={this.props.placeBet}
-                    />
-                  </div>
-                );
-              })}
+            <div className="content">
+              <div className="columns is-multiline is-centered">
+                {this.state.playersOrder.map(index => {
+                  const player = this.props.game.data!!.players[index];
+                  return (
+                    <div className="column is-one-third" key={player.id}>
+                      <PlayerCard
+                        player={player}
+                        scores={this.props.scores}
+                        game={this.props.game.data!!}
+                        currentHand={this.props.currentHand}
+                        currentRound={this.props.currentRound}
+                        endRound={this.props.endRound}
+                        placeBet={this.props.placeBet}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
+
+    return <Redirect to="players" />;
   }
 
   private checkRound(props: IGameComponentProps) {
@@ -115,15 +119,16 @@ class Game extends React.Component<IGameComponentProps, IGameComponentState> {
         }
       }
 
-      if (props.game) {
-        const currentDealerIndex = props.game.players.findIndex(
+      if (props.game.data) {
+        const currentDealerIndex = props.game.data.players.findIndex(
           ({ id }) => id === props.currentHand!!.dealerId
         );
 
         if (currentDealerIndex > -1) {
-          const playersOrder = props.game.players.map(
+          const playersOrder = props.game.data.players.map(
             (player, index) =>
-              (index + 1 + currentDealerIndex) % props.game!!.players.length
+              (index + 1 + currentDealerIndex) %
+              props.game.data!!.players.length
           );
 
           this.setState({ playersOrder });

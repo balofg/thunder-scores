@@ -36,11 +36,11 @@ export interface IHandScores {
 }
 
 export function getPlayersCumulativeScores(state: IStore): IPlayerScore[] {
-  if (state.game === null) {
+  if (state.game.data === undefined) {
     return [];
   }
 
-  return state.game.players.reduce((result, player) => {
+  return state.game.data.players.reduce((result, player) => {
     const closedHands = getClosedHands(state);
 
     const playerBets = closedHands.map(
@@ -67,7 +67,7 @@ export function getPlayersCumulativeScores(state: IStore): IPlayerScore[] {
 }
 
 export function getHandsScores(state: IStore): IHandScores[] {
-  if (state.game === null) {
+  if (state.game.data === undefined) {
     return [];
   }
 
@@ -76,7 +76,7 @@ export function getHandsScores(state: IStore): IHandScores[] {
   return closedHands.reduce((result: IHandScores[], hand, index) => {
     const previousHand = result[index - 1];
 
-    const playersScores: IHandPlayerScore[] = state.game!!.players.reduce(
+    const playersScores: IHandPlayerScore[] = state.game.data!!.players.reduce(
       (scores, player) => {
         const playerBet =
           hand.bets.find(({ playerId }) => playerId === player.id) || mockBet;

@@ -1,5 +1,9 @@
+import { TimedEntityStatus } from "./store";
+
 export interface IGameDbRow {
   id: string;
+  startDate: number;
+  status: TimedEntityStatus;
 }
 
 export interface IHandDbRow {
@@ -20,4 +24,5 @@ export interface IBetDbRow {
 export interface IPlayerDbRow {
   id: string;
   gameId: string;
+  name: string;
 }
