@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import NumberInput from "../../../components/NumberInput";
-import { endGame } from "../../../store/actions/game";
 import { abortHand, dealHand, endHand } from "../../../store/actions/hand";
 import { IGameState, IHandState } from "../../../types/store";
 
@@ -13,7 +12,6 @@ interface IHandBarProps {
   nextCardsCount: number;
   abortHand: typeof abortHand;
   dealHand: typeof dealHand;
-  endGame: typeof endGame;
   endHand: typeof endHand;
 }
 
@@ -84,7 +82,10 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
               <ScoreboardButton />
             </div>
             <div className="level-item">
-              <button className="button" onClick={this.abortHand}>
+              <button
+                className="button is-danger is-outlined"
+                onClick={this.abortHand}
+              >
                 <span className="icon">
                   <i className="fas fa-undo" />
                 </span>
@@ -147,17 +148,6 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
             <ScoreboardButton />
           </div>
           <div className="level-item">
-            <button
-              className="button is-danger is-outlined"
-              onClick={this.endGame}
-            >
-              <span className="icon">
-                <i className="fas fa-check" />
-              </span>
-              <span>End game</span>
-            </button>
-          </div>
-          <div className="level-item">
             <div className="control">
               <button
                 className="button is-primary"
@@ -192,12 +182,6 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
   private abortHand = () => {
     if (this.props.currentHand) {
       this.props.abortHand(this.props.currentHand.id);
-    }
-  };
-
-  private endGame = () => {
-    if (this.props.game) {
-      this.props.endGame();
     }
   };
 

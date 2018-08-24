@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Redirect } from "react-router-dom";
 
-import { endGame } from "../../store/actions/game";
 import {
   abortHand,
   dealHand,
@@ -31,7 +30,6 @@ interface IGameComponentProps {
   scores: IPlayerScore[];
   abortHand: typeof abortHand;
   dealHand: typeof dealHand;
-  endGame: typeof endGame;
   endHand: typeof endHand;
   startRound: typeof startRound;
   endRound: typeof endRound;
@@ -82,7 +80,6 @@ class Game extends React.Component<IGameComponentProps, IGameComponentState> {
             abortHand={this.props.abortHand}
             dealHand={this.props.dealHand}
             endHand={this.props.endHand}
-            endGame={this.props.endGame}
           />
 
           <div className="content">

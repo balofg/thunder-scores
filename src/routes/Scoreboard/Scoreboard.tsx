@@ -1,10 +1,12 @@
 import * as React from "react";
 import { Redirect } from "react-router-dom";
 
+import { endGame as endGameAction } from "../../store/actions/game";
 import { IHandScores } from "../../store/selectors/scores";
 import { BetStatus, IGameState, TimedEntityStatus } from "../../types/store";
 
 interface IScoreboardProps {
+  endGame: typeof endGameAction;
   game: IGameState;
   handsScores: IHandScores[];
 }
@@ -14,33 +16,49 @@ const betStatusColors = {
   [BetStatus.LOST]: "danger"
 };
 
-const Scoreboard = ({ game, handsScores }: IScoreboardProps) =>
+const Scoreboard = ({ endGame, game, handsScores }: IScoreboardProps) =>
   game ? (
     <div className="section">
       <div className="container">
         <div className="content">
           <h1 className="title">Scoreboard</h1>
-          {game.status === TimedEntityStatus.OPEN ? (
-            <a
-              className="button"
-              href="#/game"
-            >
-              <span className="icon">
-                <i className="fas fa-arrow-left" />
-              </span>
-              <span>Back to the game</span>
-            </a>
-          ) : (
-            <a
-              className="button is-primary"
-              href="#/players"
-            >
-              <span className="icon">
-                <i className="fas fa-bolt" />
-              </span>
-              <span>New game</span>
-            </a>
-          )}
+
+          <div className="level">
+            {game.status === TimedEntityStatus.OPEN ? (
+              <React.Fragment>
+                <div className="level-item">
+                  <a className="button" href="#/game">
+                    <span className="icon">
+                      <i className="fas fa-arrow-left" />
+                    </span>
+                    <span>Back to the game</span>
+                  </a>
+                </div>
+                <div className="level-item">
+                  <button
+                    className="button is-danger is-outlined"
+                    onClick={endGame}
+                  >
+                    <span className="icon">
+                      <i className="fas fa-check" />
+                    </span>
+                    <span>End game</span>
+                  </button>
+                </div>
+              </React.Fragment>
+            ) : null}
+
+            {game.status === TimedEntityStatus.CLOSED ? (
+              <div className="level-item">
+                <a className="button is-primary" href="#/players">
+                  <span className="icon">
+                    <i className="fas fa-bolt" />
+                  </span>
+                  <span>New game</span>
+                </a>
+              </div>
+            ) : null}
+          </div>
         </div>
         <div className="content">
           <table className="table is-fullwidth">
