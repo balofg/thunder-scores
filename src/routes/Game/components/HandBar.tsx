@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import NumberInput from "../../../components/NumberInput";
-import { endGame } from "../../../store/actions/game";
 import { abortHand, dealHand, endHand } from "../../../store/actions/hand";
 import { IGameState, IHandState } from "../../../types/store";
 
@@ -13,7 +12,6 @@ interface IHandBarProps {
   nextCardsCount: number;
   abortHand: typeof abortHand;
   dealHand: typeof dealHand;
-  endGame: typeof endGame;
   endHand: typeof endHand;
 }
 
@@ -66,85 +64,19 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
         currentHand.cardsCount;
 
       return (
-        <div className="section">
-          <div className="container">
-            {!!dealer && (
-              <h2 className="subtitle">
-                {dealer.name}
-                's hand
-              </h2>
-            )}
-            <h1 className="title">
-              {currentHand.cardsCount} card
-              {currentHand.cardsCount > 1 ? "s" : ""}; &Delta;{" "}
-              {delta > 0 ? "+" : ""}
-              {delta}
-            </h1>
-            <div className="level">
-              <div className="level-item">
-                <ScoreboardButton />
-              </div>
-              <div className="level-item">
-                <button className="button" onClick={this.abortHand}>
-                  <span className="icon">
-                    <i className="fas fa-undo" />
-                  </span>
-                  <span>Undo hand</span>
-                </button>
-              </div>
-              <div className="level-item">
-                <button
-                  className="button is-primary"
-                  disabled={!this.props.isDonePlaying}
-                  onClick={this.endHand}
-                >
-                  <span className="icon">
-                    <i className="fas fa-check" />
-                  </span>
-                  <span>Close hand</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div className="section">
-        <div className="container">
-          <h1 className="title">New hand</h1>
-          <div className="field">
-            <label className="label">How many cards?</label>
-            <div className="control">
-              <NumberInput
-                onChange={this.onCardsCountChange}
-                isDanger={!!this.state.cardsCountError}
-                value={this.state.cardsCount}
-              />
-            </div>
-            {!!this.state.cardsCountError && (
-              <p className="help is-danger">{this.state.cardsCountError}</p>
-            )}
-          </div>
-          <div className="field">
-            <label className="label">Who's dealing?</label>
-            <div className="control is-expanded">
-              <div className="select" style={{ width: "100%" }}>
-                <select
-                  value={this.state.dealerId}
-                  style={{ width: "100%" }}
-                  onChange={this.onDealerChange}
-                >
-                  {game.players.map(player => (
-                    <option key={player.id} value={player.id}>
-                      {player.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
+        <div className="content">
+          {!!dealer && (
+            <h2 className="subtitle">
+              {dealer.name}
+              's hand
+            </h2>
+          )}
+          <h1 className="title">
+            {currentHand.cardsCount} card
+            {currentHand.cardsCount > 1 ? "s" : ""}; &Delta;{" "}
+            {delta > 0 ? "+" : ""}
+            {delta}
+          </h1>
           <div className="level">
             <div className="level-item">
               <ScoreboardButton />
@@ -152,27 +84,81 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
             <div className="level-item">
               <button
                 className="button is-danger is-outlined"
-                onClick={this.endGame}
+                onClick={this.abortHand}
+              >
+                <span className="icon">
+                  <i className="fas fa-undo" />
+                </span>
+                <span>Undo hand</span>
+              </button>
+            </div>
+            <div className="level-item">
+              <button
+                className="button is-primary"
+                disabled={!this.props.isDonePlaying}
+                onClick={this.endHand}
               >
                 <span className="icon">
                   <i className="fas fa-check" />
                 </span>
-                <span>End game</span>
+                <span>Close hand</span>
               </button>
             </div>
-            <div className="level-item">
-              <div className="control">
-                <button
-                  className="button is-primary"
-                  disabled={!!this.state.cardsCountError}
-                  onClick={this.dealHand}
-                >
-                  <span className="icon">
-                    <i className="fas fa-bolt" />
-                  </span>
-                  <span>Deal hand</span>
-                </button>
-              </div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="content">
+        <h1 className="title">New hand</h1>
+        <div className="field">
+          <label className="label">How many cards?</label>
+          <div className="control">
+            <NumberInput
+              onChange={this.onCardsCountChange}
+              isDanger={!!this.state.cardsCountError}
+              value={this.state.cardsCount}
+            />
+          </div>
+          {!!this.state.cardsCountError && (
+            <p className="help is-danger">{this.state.cardsCountError}</p>
+          )}
+        </div>
+        <div className="field">
+          <label className="label">Who's dealing?</label>
+          <div className="control is-expanded">
+            <div className="select" style={{ width: "100%" }}>
+              <select
+                value={this.state.dealerId}
+                style={{ width: "100%" }}
+                onChange={this.onDealerChange}
+              >
+                {game.players.map(player => (
+                  <option key={player.id} value={player.id}>
+                    {player.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+        <div className="level">
+          <div className="level-item">
+            <ScoreboardButton />
+          </div>
+          <div className="level-item">
+            <div className="control">
+              <button
+                className="button is-primary"
+                disabled={!!this.state.cardsCountError}
+                onClick={this.dealHand}
+              >
+                <span className="icon">
+                  <i className="fas fa-bolt" />
+                </span>
+                <span>Deal hand</span>
+              </button>
             </div>
           </div>
         </div>
@@ -196,12 +182,6 @@ class HandBar extends React.Component<IHandBarProps, IHandBarState> {
   private abortHand = () => {
     if (this.props.currentHand) {
       this.props.abortHand(this.props.currentHand.id);
-    }
-  };
-
-  private endGame = () => {
-    if (this.props.game) {
-      this.props.endGame();
     }
   };
 

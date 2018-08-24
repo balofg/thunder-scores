@@ -5,5 +5,5 @@ import hands from "./hands";
 
 export default combineReducers({
   game,
-  hands,
+  hands
 });

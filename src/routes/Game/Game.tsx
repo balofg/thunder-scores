@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Redirect } from "react-router-dom";
 
-import { endGame } from "../../store/actions/game";
 import {
   abortHand,
   dealHand,
@@ -11,7 +10,12 @@ import {
   startRound
 } from "../../store/actions/hand";
 import { IPlayerScore } from "../../store/selectors/scores";
-import { IGameState, IHandState, IRoundState, TimedEntityStatus } from "../../types/store";
+import {
+  IGameState,
+  IHandState,
+  IRoundState,
+  TimedEntityStatus
+} from "../../types/store";
 
 import HandBar from "./components/HandBar";
 import PlayerCard from "./components/PlayerCard";
@@ -26,7 +30,6 @@ interface IGameComponentProps {
   scores: IPlayerScore[];
   abortHand: typeof abortHand;
   dealHand: typeof dealHand;
-  endGame: typeof endGame;
   endHand: typeof endHand;
   startRound: typeof startRound;
   endRound: typeof endRound;
@@ -66,29 +69,25 @@ class Game extends React.Component<IGameComponentProps, IGameComponentState> {
     }
 
     return (
-      <React.Fragment>
-        <HandBar
-          currentHand={this.props.currentHand}
-          game={this.props.game}
-          isDonePlaying={this.props.isDonePlaying}
-          nextDealerId={this.props.nextDealerId}
-          nextCardsCount={this.props.nextCardsCount}
-          abortHand={this.props.abortHand}
-          dealHand={this.props.dealHand}
-          endHand={this.props.endHand}
-          endGame={this.props.endGame}
-        />
+      <div className="section">
+        <div className="container">
+          <HandBar
+            currentHand={this.props.currentHand}
+            game={this.props.game}
+            isDonePlaying={this.props.isDonePlaying}
+            nextDealerId={this.props.nextDealerId}
+            nextCardsCount={this.props.nextCardsCount}
+            abortHand={this.props.abortHand}
+            dealHand={this.props.dealHand}
+            endHand={this.props.endHand}
+          />
 
-        <div className="section">
-          <div className="container">
+          <div className="content">
             <div className="columns is-multiline is-centered">
               {this.state.playersOrder.map(index => {
                 const player = this.props.game!!.players[index];
                 return (
-                  <div
-                    className="column is-one-third"
-                    key={player.id}
-                  >
+                  <div className="column is-one-third" key={player.id}>
                     <PlayerCard
                       player={player}
                       scores={this.props.scores}
@@ -104,7 +103,7 @@ class Game extends React.Component<IGameComponentProps, IGameComponentState> {
             </div>
           </div>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 
